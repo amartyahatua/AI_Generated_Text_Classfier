@@ -1,1 +1,1 @@
-# AI_Generated_Text_Classfier
+# AI Generated Text Classfier
