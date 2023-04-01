@@ -1,4 +1,4 @@
-API_KEY = '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'
+API_KEY = ''
 
 
 import os
