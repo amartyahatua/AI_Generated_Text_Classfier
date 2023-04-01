@@ -1,4 +1,4 @@
-API_KEY = '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'
+API_KEY = ''
 import pandas as pd
 import openai
 from tqdm import tqdm
