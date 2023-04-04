@@ -1,10 +1,10 @@
-API_KEY = ''
+API_KEY = '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'
 import pandas as pd
 import openai
 from tqdm import tqdm
 openai.api_key = API_KEY
 
-df = pd.read_csv('../../data/wiki_data_extract.csv')
+df = pd.read_csv('../../data/wiki_data_extract_1_5000.csv')
 df['GPT_Generated_Text'] = ''*df.shape[0]
 
 result = pd.DataFrame()
@@ -24,5 +24,5 @@ for i in tqdm(range(df.shape[0])):
     except Exception as e:
         print('Error message: ', e)
 
-df.to_csv('../../data/chatgpt_generated_wiki_data.csv', index=False)
+df.to_csv('../../data/chatgpt_generated_wiki_data_1_5000.csv', index=False)
 
