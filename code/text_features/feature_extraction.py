@@ -7,7 +7,6 @@ from sklearn.decomposition import LatentDirichletAllocation
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from readability import Readability
 import spacy
-from spacy import displacy
 
 nlp = spacy.load("en_core_web_sm")
 
@@ -94,9 +93,15 @@ def count_ent(trainDF):
 
 trainDF = pd.read_csv('../../data/chatgpt_generated_wiki_data_1_5000.csv')
 
+# Removing rows having texts less than 100 words
+trainDF['Text'].replace('', np.nan, inplace=True)
+trainDF.dropna(subset=['Text'], inplace=True)
+trainDF["word_count"] = trainDF["Text"].apply(lambda x: len(x))
+trainDF = trainDF[(trainDF["word_count"] >= 100)]
+
+
 # Text,GPT_Generated_Text
 trainDF['char_count'] = trainDF['Text'].apply(len)
-trainDF['word_count'] = trainDF['Text'].apply(lambda x: len(x.split()))
 trainDF['word_density'] = trainDF['char_count'] / (trainDF['word_count']+1)
 trainDF['punctuation_count'] = trainDF['Text'].apply(lambda x: len("".join(_ for _ in x if _ in string.punctuation)))
 trainDF['title_word_count'] = trainDF['Text'].apply(lambda x: len([wrd for wrd in x.split() if wrd.istitle()]))
