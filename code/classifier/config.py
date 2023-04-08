@@ -1,4 +1,4 @@
-data_source = '../../data/chatgpt_generated_wiki_data_1_5000.csv'
+data_source = '../../../data/chatgpt_generated_wiki_data_1_5000.csv'
 
 # feature config:
 FEATURE_DIMENSION = 512
