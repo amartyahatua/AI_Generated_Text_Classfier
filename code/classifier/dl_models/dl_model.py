@@ -26,12 +26,12 @@ class DL_Classifier:
         self.X_train, self.X_test, self.y_train, self.y_test = load_data()
 
         self.X_train = encode_text(self.X_train)
-        self.X_train = DataLoader(self.X_train, config.BATCH_SIZE, shuffle=False)
-        self.y_train = DataLoader(self.y_train, config.BATCH_SIZE, shuffle=False)
+        self.X_train = DataLoader(self.X_train, config.BATCH_SIZE)
+        self.y_train = DataLoader(self.y_train, config.BATCH_SIZE)
 
         self.X_test = encode_text(self.X_test)
-        self.X_test = DataLoader(self.X_test, config.BATCH_SIZE, shuffle=False)
-        self.y_test = DataLoader(self.y_test, config.BATCH_SIZE, shuffle=False)
+        self.X_test = DataLoader(self.X_test, config.BATCH_SIZE)
+        self.y_test = DataLoader(self.y_test, config.BATCH_SIZE)
 
     def train(self):
         bilstm_model = BiLSTMClassifier(embedding_dim=config.FEATURE_DIMENSION, hidden_dim=config.HIDDEN_LAYER,
@@ -44,27 +44,29 @@ class DL_Classifier:
             total_loss = 0
             y_target_train = []
             y_predict_train = []
-            for bi, data in (enumerate(zip(self.X_train, self.y_train))):
-                X_train, y_train = data
-                X_train = torch.tensor(X_train).double()
-                X_train = torch.nn.functional.normalize(X_train, p=2.0, dim=1)
+            for bi, data in enumerate(zip(self.X_train, self.y_train)):
+                print(data)
+                #X_train, y_train = data
+                # X_train = torch.tensor(X_train).double()
+                # X_train = torch.nn.functional.normalize(X_train, p=2.0, dim=1)
 
-                bilstm_model.zero_grad()
-                lstm_r = bilstm_model(X_train.double())
-                y_train = Variable(y_train.float())
-                y_train = y_train.reshape(-1, 1)
-                lstm_r_loss = loss(lstm_r.float(), y_train.float())
-                total_loss += lstm_r_loss
-                lstm_r_loss.backward()
-                u_dis_optima.step()
-
-                label = y_train.reshape(1, -1)
-                label = label.data.tolist()[0]
-                lstm_r = lstm_r.reshape(1, -1)
-                outPred = np.where(lstm_r <= 0.5, 0, 1)
-                y_target_train.extend(label)
-                y_predict_train.extend(outPred.tolist()[0])
-
+            #     bilstm_model.zero_grad()
+            #     lstm_r = bilstm_model(X_train.double())
+            #     y_train = Variable(y_train.float())
+            #     y_train = y_train.reshape(-1, 1)
+            #     lstm_r_loss = loss(lstm_r.float(), y_train.float())
+            #     total_loss += lstm_r_loss
+            #     lstm_r_loss.backward()
+            #     u_dis_optima.step()
+            #
+            #     label = y_train.reshape(1, -1)
+            #     label = label.data.tolist()[0]
+            #     lstm_r = lstm_r.reshape(1, -1)
+            #     outPred = np.where(lstm_r <= 0.5, 0, 1)
+            #     y_target_train.extend(label)
+            #     y_predict_train.extend(outPred.tolist()[0])
+            # avg_loss = total_loss/bi
+            # print('Epoch = {} and average loss = {}'.format(str(epoch), str(avg_loss)))
 
 if __name__ == '__main__':
     classifier_obj = DL_Classifier()

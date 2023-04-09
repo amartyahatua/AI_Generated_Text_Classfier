@@ -4,7 +4,7 @@ data_source = '../../../data/chatgpt_generated_wiki_data_1_5000.csv'
 FEATURE_DIMENSION = 512
 
 # train_config:
-BATCH_SIZE = 100
+BATCH_SIZE = 2
 HIDDEN_LAYER = 32
 LEAK = 0.2
 MAP_DIM = 16

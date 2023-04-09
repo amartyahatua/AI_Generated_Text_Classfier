@@ -43,7 +43,5 @@ def load_data():
     data.dropna(subset=['text'], inplace=True)
     data["word_count"] = data["text"].apply(lambda x: len(x))
     data = data[(data["word_count"] >= 100)]
-    print(data)
-
     X_train, X_test, y_train, y_test = train_test_split(data['text'], data['label'], test_size=0.33, random_state=42)
     return X_train, X_test, y_train, y_test
