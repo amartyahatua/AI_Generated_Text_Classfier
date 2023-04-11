@@ -3,7 +3,9 @@ import numpy as np
 import torch.nn as nn
 import torch.optim as optim
 from torch.autograd import Variable
+from sklearn.metrics import f1_score
 import spacy_universal_sentence_encoder
+from sklearn.metrics import classification_report
 from torch.utils.data import DataLoader, TensorDataset
 from AI_Generated_Text_Classfier.code.classifier import config
 from AI_Generated_Text_Classfier.code.classifier.helpers import *
@@ -64,14 +66,17 @@ class DL_Classifier:
                 lstm_r_loss.backward()
                 u_dis_optima.step()
 
-                label = y_train.reshape(1, -1)
-                label = label.data.tolist()[0]
-                lstm_r = lstm_r.reshape(1, -1)
-                outPred = np.where(lstm_r <= 0.5, 0, 1)
-                y_target_train.extend(label)
-                y_predict_train.extend(outPred.tolist()[0])
+
             avg_loss = total_loss/bi
             print('Epoch = {} and average loss = {}'.format(str(epoch), str(avg_loss)))
+
+            y_pred = bilstm_model(self.X_test .double())
+            y_pred = np.where(y_pred <= 0.5, 0, 1)
+            f1 = f1_score(self.y_test, y_pred)
+            print('F1 Score = ',f1)
+            print(classification_report(self.y_test, y_pred))
+
+
 
 if __name__ == '__main__':
     classifier_obj = DL_Classifier()
