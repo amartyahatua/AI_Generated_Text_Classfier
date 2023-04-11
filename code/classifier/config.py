@@ -3,13 +3,16 @@ data_source = '../../../data/chatgpt_generated_wiki_data_1_5000.csv'
 # feature config:
 FEATURE_DIMENSION = 512
 
+
+# Model paths
+RF_MODLE_PATH = '../../../model/random_forest.pkl'
 # train_config:
 BATCH_SIZE = 2
 HIDDEN_LAYER = 32
 LEAK = 0.2
 MAP_DIM = 16
 SINGLE_LAYER = 1
-EPOCHS = 30
+EPOCHS = 2
 BETA1 = 0.05
 BETA2 = 0.005
 SAMPLE_SIZE = 100

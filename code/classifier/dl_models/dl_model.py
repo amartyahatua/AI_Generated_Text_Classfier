@@ -66,16 +66,14 @@ class DL_Classifier:
                 lstm_r_loss.backward()
                 u_dis_optima.step()
 
-
-            avg_loss = total_loss/bi
+            avg_loss = total_loss / bi
             print('Epoch = {} and average loss = {}'.format(str(epoch), str(avg_loss)))
 
-            y_pred = bilstm_model(self.X_test .double())
+            y_pred = bilstm_model(self.X_test.double())
             y_pred = np.where(y_pred <= 0.5, 0, 1)
             f1 = f1_score(self.y_test, y_pred)
-            print('F1 Score = ',f1)
+            print('F1 Score = ', f1)
             print(classification_report(self.y_test, y_pred))
-
 
 
 if __name__ == '__main__':
