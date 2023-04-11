@@ -44,4 +44,12 @@ def load_data():
     data["word_count"] = data["text"].apply(lambda x: len(x))
     data = data[(data["word_count"] >= 100)]
     X_train, X_test, y_train, y_test = train_test_split(data['text'], data['label'], test_size=0.33, random_state=42)
+    X_train = pd.DataFrame(X_train)
+    X_train = X_train.reset_index(drop=True)
+    X_test = pd.DataFrame(X_test)
+    X_test = X_test.reset_index(drop=True)
+    y_train = pd.DataFrame(y_train)
+    y_train = y_train.reset_index(drop=True)
+    y_test = pd.DataFrame(y_test)
+    y_test = y_test.reset_index(drop=True)
     return X_train, X_test, y_train, y_test
