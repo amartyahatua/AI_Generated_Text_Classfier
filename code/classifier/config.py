@@ -6,6 +6,9 @@ FEATURE_DIMENSION = 512
 
 # Model paths
 RF_MODLE_PATH = '../../../model/random_forest.pkl'
+SVM_MODLE_PATH = '../../../model/svm.pkl'
+XGB_MODLE_PATH = '../../../model/xgb.pkl'
+
 # train_config:
 BATCH_SIZE = 2
 HIDDEN_LAYER = 32
