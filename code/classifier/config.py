@@ -2,7 +2,7 @@ data_source = '../../../data/chatgpt_generated_wiki_data_1_5000.csv'
 
 # feature config:
 FEATURE_DIMENSION = 512
-
+EXTRACTED_FEATURES = 1024
 
 # Model paths
 RF_MODLE_PATH = '../../../model/random_forest.pkl'
