@@ -1,2 +1,9 @@
 # AI Generated Text Classfier
-## Models: Machine Learning model, Deep Learning model
+## Machine Learning model
+### Random forest
+### Support Vector Machine
+### XGBoost
+
+## Deep Learning model
+### BiLSTM
+### Hybrid model
