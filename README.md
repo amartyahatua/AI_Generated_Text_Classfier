@@ -6,7 +6,6 @@
 ### Random forest
 ### Support Vector Machine
 ### XGBoost
-
 ## Deep Learning model
 ### BiLSTM
 ### Hybrid model
