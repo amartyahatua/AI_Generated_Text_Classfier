@@ -1,7 +1,8 @@
 # AI Generated Text Classfier
 ## Data collection 
 ## Data preprocessing 
-## Feature engineering
+## Feature engineering 
+## Exploratory Data Analysis 
 ## Machine Learning model
 ### Random forest
 ### Support Vector Machine
