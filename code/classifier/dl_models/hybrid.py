@@ -3,6 +3,7 @@ import torch.nn as nn
 from torch.autograd import Variable
 from AI_Generated_Text_Classfier.code.classifier import config
 
+
 class HybridClassifier(nn.Module):
     def __init__(self, embedding_dim, hidden_dim, label_size, extracted_feature_size, batch_size, dropout=0.2):
         super(HybridClassifier, self).__init__()
@@ -10,7 +11,7 @@ class HybridClassifier(nn.Module):
         self.batch_size = batch_size
         self.dropout = nn.Dropout(dropout)
         self.lstm = nn.LSTM(input_size=embedding_dim, hidden_size=hidden_dim, bidirectional=True)
-        self.hidden2label = nn.Linear(hidden_dim*2, extracted_feature_size)
+        self.hidden2label = nn.Linear(hidden_dim * 2, extracted_feature_size)
         self.hybridLayer = nn.Linear(extracted_feature_size, label_size)
         self.hidden = self.init_hidden()
         self.softmax = nn.Softmax(dim=1)
@@ -29,8 +30,9 @@ class HybridClassifier(nn.Module):
         output = self.dropout(hybrid_output)
         return output
 
-hybrid_model = HybridClassifier(embedding_dim=config.FEATURE_DIMENSION, hidden_dim=config.HIDDEN_LAYER,
-                                        label_size=1, extracted_feature_size=config.EXTRACTED_FEATURES , batch_size=config.BATCH_SIZE)
 
+hybrid_model = HybridClassifier(embedding_dim=config.FEATURE_DIMENSION, hidden_dim=config.HIDDEN_LAYER,
+                                label_size=1, extracted_feature_size=config.EXTRACTED_FEATURES,
+                                batch_size=config.BATCH_SIZE)
 hybrid_model.hybridLayer.requires_grad_(False)
 print(hybrid_model)
