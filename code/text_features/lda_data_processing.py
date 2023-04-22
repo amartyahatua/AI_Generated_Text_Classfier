@@ -31,35 +31,32 @@ trainDF = trainDF[(trainDF["word_count"] >= 100)]
 vocab = []
 documentList = []
 partitionList = []
-cleanedTextList = []
 labelList = []
 sum_word_len = 0
 for index, row in trainDF.iterrows():
     if index+1 % 100 == 0:
         print( 'process ' + (index+1)/trainDF.shape[0]*100 + '% (' + (index+1) + '/' + trainDF.shape[0] + ')' )
-    # determine the document label for this data row
-    document_label = row['Page title'] + ' ' + row['Section title']
-    documentList.append(document_label)
-    # determine the train/test label with the ratio 80:20
-    rand = random.random()
-    train_test_label = "train" if rand <= 0.8 else "test"
-    partitionList.append(train_test_label)
+    # determine the document label for this data row 
     # preprocess the TEXT attribute
     if source == 1:
         Processed_Content = text_preprocessing(row['GPT_Generated_Text']) #Cleaned text of Content attribute after pre-processing
     else:    
         Processed_Content = text_preprocessing(row['Text']) #Cleaned text of Content attribute after pre-processing
-    cleanedTextList.append(Processed_Content)
+    documentList.append(Processed_Content)
     sum_word_len += len(Processed_Content)
     for word in Processed_Content:
         if word not in vocab:
             vocab.append(word)
+    # determine the train/test label with the ratio 80:20
+    rand = random.random()
+    train_test_label = "train" if rand <= 0.8 else "test"
+    partitionList.append(train_test_label)
     # determine the label
-    labelList.append(row['Page title'])
+    document_label = row['Page title'] + '.' + row['Section title']
+    labelList.append(document_label)
 trainDF['documentList'] = documentList
 trainDF['partitionList'] = partitionList
 trainDF['labelList'] = labelList
-trainDF['cleanedTextList'] = cleanedTextList
 
 # make output directory if not exist
 import os

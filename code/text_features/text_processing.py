@@ -1,4 +1,5 @@
-#require libraries: nltk, autocorrect, bs4, unidecode
+# text processing utilitties credits: @techykajal
+# #require libraries: nltk, autocorrect, bs4, unidecode
 #pip install autocorrect nltk bs4 unidecode
 # Importing Libraries
 import pandas as pd
@@ -23,7 +24,6 @@ spell = Speller(lang='en')
 w_tokenizer = nltk.tokenize.WhitespaceTokenizer()
 lemmatizer = nltk.stem.WordNetLemmatizer()
 
-# text processing utilitties credits: @techykajal
 def remove_newlines_tabs(text):
     """
     This function will remove all the occurrences of newlines, tabs, and combinations like: \\n, \\.
