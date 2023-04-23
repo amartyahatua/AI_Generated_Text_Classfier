@@ -26,34 +26,26 @@ lemmatizer = nltk.stem.WordNetLemmatizer()
 
 def remove_newlines_tabs(text):
     """
-    This function will remove all the occurrences of newlines, tabs, and combinations like: \\n, \\.
-    
+    This function will remove all the occurrences of newlines, tabs, and combinations like: \\n, \\.    
     arguments:
-        input_text: "text" of type "String". 
-                    
+        input_text: "text" of type "String".                     
     return:
-        value: "text" after removal of newlines, tabs, \\n, \\ characters.
-        
+        value: "text" after removal of newlines, tabs, \\n, \\ characters.        
     Example:
     Input : This is her \\ first day at this place.\n Please,\t Be nice to her.\\n
-    Output : This is her first day at this place. Please, Be nice to her. 
-    
-    """
-    
+    Output : This is her first day at this place. Please, Be nice to her.     
+    """    
     # Replacing all the occurrences of \n,\\n,\t,\\ with a space.
     Formatted_text = text.replace('\\n', ' ').replace('\n', ' ').replace('\t',' ').replace('\\', ' ').replace('. com', '.com')
     return Formatted_text
 
 def strip_html_tags(text):
     """ 
-    This function will remove all the occurrences of html tags from the text.
-    
+    This function will remove all the occurrences of html tags from the text.    
     arguments:
-        input_text: "text" of type "String". 
-                    
+        input_text: "text" of type "String".                     
     return:
-        value: "text" after removal of html tags.
-        
+        value: "text" after removal of html tags.        
     Example:
     Input : This is a nice place to live. <IMG>
     Output : This is a nice place to live.  
@@ -66,20 +58,15 @@ def strip_html_tags(text):
 
 def remove_links(text):
     """
-    This function will remove all the occurrences of links.
-    
+    This function will remove all the occurrences of links.    
     arguments:
-        input_text: "text" of type "String". 
-                    
+        input_text: "text" of type "String".                     
     return:
-        value: "text" after removal of all types of links.
-        
+        value: "text" after removal of all types of links.        
     Example:
     Input : To know more about cats and food & website: catster.com  visit: https://catster.com//how-to-feed-cats
-    Output : To know more about cats and food & website: visit:     
-    
-    """
-    
+    Output : To know more about cats and food & website: visit:       
+    """    
     # Removing all the occurrences of links that starts with https
     remove_https = re.sub(r'http\S+', '', text)
     # Remove all the occurrences of text that ends with .com
@@ -90,15 +77,12 @@ def remove_whitespace(text):
     """ This function will remove 
         extra whitespaces from the text
     arguments:
-        input_text: "text" of type "String". 
-                    
+        input_text: "text" of type "String".                     
     return:
-        value: "text" after extra whitespaces removed .
-        
+        value: "text" after extra whitespaces removed .        
     Example:
     Input : How   are   you   doing   ?
-    Output : How are you doing ?     
-        
+    Output : How are you doing ?        
     """
     pattern = re.compile(r'\s+') 
     Without_whitespace = re.sub(pattern, ' ', text)
@@ -112,18 +96,14 @@ def accented_characters_removal(text):
     # this is a docstring
     """
     The function will remove accented characters from the 
-    text contained within the Dataset.
-       
+    text contained within the Dataset.       
     arguments:
-        input_text: "text" of type "String". 
-                    
+        input_text: "text" of type "String".                     
     return:
-        value: "text" with removed accented characters.
-        
+        value: "text" with removed accented characters.        
     Example:
     Input : Málaga, àéêöhello
-    Output : Malaga, aeeohello    
-        
+    Output : Malaga, aeeohello            
     """
     # Remove accented characters from text using unidecode.
     # Unidecode() - It takes unicode data & tries to represent it to ASCII characters. 
@@ -131,21 +111,16 @@ def accented_characters_removal(text):
     return text
 
 # Code for text lowercasing
-def lower_casing_text(text):
-    
+def lower_casing_text(text):    
     """
-    The function will convert text into lower case.
-    
+    The function will convert text into lower case.    
     arguments:
-         input_text: "text" of type "String".
-         
+         input_text: "text" of type "String".         
     return:
-         value: text in lowercase
-         
+         value: text in lowercase         
     Example:
     Input : The World is Full of Surprises!
-    Output : the world is full of surprises!
-    
+    Output : the world is full of surprises!    
     """
     # Convert text to lower case
     # lower() - It converts all upperase letter of given string to lowercase.
@@ -156,32 +131,24 @@ def lower_casing_text(text):
 def reducing_incorrect_character_repeatation(text):
     """
     This Function will reduce repeatition to two characters 
-    for alphabets and to one character for punctuations.
-    
+    for alphabets and to one character for punctuations.    
     arguments:
-         input_text: "text" of type "String".
-         
+         input_text: "text" of type "String".         
     return:
         value: Finally formatted text with alphabets repeating to 
-        two characters & punctuations limited to one repeatition 
-        
+        two characters & punctuations limited to one repeatition         
     Example:
     Input : Realllllllllyyyyy,        Greeeeaaaatttt   !!!!?....;;;;:)
-    Output : Reallyy, Greeaatt !?.;:)
-    
+    Output : Reallyy, Greeaatt !?.;:)    
     """
     # Pattern matching for all case alphabets
-    Pattern_alpha = re.compile(r"([A-Za-z])\1{1,}", re.DOTALL)
-    
+    Pattern_alpha = re.compile(r"([A-Za-z])\1{1,}", re.DOTALL)    
     # Limiting all the  repeatation to two characters.
-    Formatted_text = Pattern_alpha.sub(r"\1\1", text) 
-    
+    Formatted_text = Pattern_alpha.sub(r"\1\1", text)     
     # Pattern matching for all the punctuations that can occur
-    Pattern_Punct = re.compile(r'([.,/#!$%^&*?;:{}=_`~()+-])\1{1,}')
-    
+    Pattern_Punct = re.compile(r'([.,/#!$%^&*?;:{}=_`~()+-])\1{1,}')    
     # Limiting punctuations in previously formatted string to only one.
-    Combined_Formatted = Pattern_Punct.sub(r'\1', Formatted_text)
-    
+    Combined_Formatted = Pattern_Punct.sub(r'\1', Formatted_text)    
     # The below statement is replacing repeatation of spaces that occur more than two times with that of one occurrence.
     Final_Formatted = re.sub(' {2,}',' ', Combined_Formatted)
     return Final_Formatted
@@ -308,18 +275,14 @@ CONTRACTION_MAP = {
 # The code for expanding contraction words
 def expand_contractions(text, contraction_mapping =  CONTRACTION_MAP):
     """expand shortened words to the actual form.
-       e.g. don't to do not
-    
+       e.g. don't to do not    
        arguments:
-            input_text: "text" of type "String".
-         
+            input_text: "text" of type "String".         
        return:
-            value: Text with expanded form of shorthened words.
-        
+            value: Text with expanded form of shorthened words.        
        Example: 
        Input : ain't, aren't, can't, cause, can't've
-       Output :  is not, are not, cannot, because, cannot have 
-    
+       Output :  is not, are not, cannot, because, cannot have     
      """
     # Tokenizing text into tokens.
     list_Of_tokens = text.split(' ')

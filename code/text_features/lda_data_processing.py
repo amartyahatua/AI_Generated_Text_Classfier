@@ -27,22 +27,46 @@ trainDF.dropna(subset=['Text'], inplace=True)
 trainDF["word_count"] = trainDF["Text"].apply(lambda x: len(x))
 trainDF = trainDF[(trainDF["word_count"] >= 100)]
 
+# Print iterations progress
+def printProgressBar (iteration, total, prefix = '', suffix = '', decimals = 1, length = 100, fill = '█', printEnd = "\r"):
+    """
+    Call in a loop to create terminal progress bar
+    @params:
+        iteration   - Required  : current iteration (Int)
+        total       - Required  : total iterations (Int)
+        prefix      - Optional  : prefix string (Str)
+        suffix      - Optional  : suffix string (Str)
+        decimals    - Optional  : positive number of decimals in percent complete (Int)
+        length      - Optional  : character length of bar (Int)
+        fill        - Optional  : bar fill character (Str)
+        printEnd    - Optional  : end character (e.g. "\r", "\r\n") (Str)
+    """
+    percent = ("{0:." + str(decimals) + "f}").format(100 * (iteration / float(total)))
+    filledLength = int(length * iteration // total)
+    bar = fill * filledLength + '-' * (length - filledLength)
+    print(f'\r{prefix} |{bar}| {percent}% {suffix}', end = printEnd)
+    # Print New Line on Complete
+    if iteration == total: 
+        print()
+
 #loop for each Text on each row to collect data:
 vocab = []
 documentList = []
 partitionList = []
 labelList = []
 sum_word_len = 0
+printProgressBar(0, trainDF.shape[0], prefix = 'Progress:', suffix = 'Complete', length = 100)
 for index, row in trainDF.iterrows():
-    if index+1 % 100 == 0:
-        print( 'process ' + (index+1)/trainDF.shape[0]*100 + '% (' + (index+1) + '/' + trainDF.shape[0] + ')' )
+    if (index+1) % 100 == 0:
+        #print( 'process {0:0.2f}% ({1}/{2})'.format( (index+1)/trainDF.shape[0]*100, (index+1), trainDF.shape[0]) )
+        printProgressBar(index+1, trainDF.shape[0], prefix = 'Progress:', suffix = 'Complete', length = 100)
     # determine the document label for this data row 
     # preprocess the TEXT attribute
     if source == 1:
         Processed_Content = text_preprocessing(row['GPT_Generated_Text']) #Cleaned text of Content attribute after pre-processing
     else:    
         Processed_Content = text_preprocessing(row['Text']) #Cleaned text of Content attribute after pre-processing
-    documentList.append(Processed_Content)
+    documentList.append(' '.join(Processed_Content))
     sum_word_len += len(Processed_Content)
     for word in Processed_Content:
         if word not in vocab:
