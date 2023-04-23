@@ -11,5 +11,4 @@
 ### BiLSTM
 ### Hybrid model
 ## Explanation
-### SHAPE
-### LIME
+### Using SHAPE and Lime
