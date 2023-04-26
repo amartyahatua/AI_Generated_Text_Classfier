@@ -2,6 +2,7 @@
 ## Data collection 
 ## Data preprocessing 
 ## Feature engineering 
+### LDA Topic modeling
 ## Exploratory Data Analysis 
 ## Machine Learning model
 ### Random forest
