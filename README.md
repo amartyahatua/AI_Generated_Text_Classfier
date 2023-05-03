@@ -1,7 +1,10 @@
 # AI Generated Text Classfier
 ## Data collection 
+### Wiki data collection
+### Reverse data collection
 ## Data preprocessing 
 ## Feature engineering 
+### LDA Topic modeling
 ## Exploratory Data Analysis 
 ## Machine Learning model
 ### Random forest
