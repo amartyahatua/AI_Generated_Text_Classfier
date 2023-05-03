@@ -17,7 +17,7 @@ count = 0
 
 for query in queries:
     result = []
-    for j in search(query, pause=10.0, ):
+    for j in search(query, pause=10.0):
         result.append(j)
 
     result = pd.DataFrame(result, columns=['URL'])
