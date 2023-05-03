@@ -2,10 +2,10 @@
 import pandas as pd
 import string
 import numpy as np
-# from textblob import TextBlob
+from textblob import TextBlob
 from sklearn.decomposition import LatentDirichletAllocation
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
-# from readability import Readability
+from readability import Readability
 import spacy
 import language_tool_python
 
@@ -155,6 +155,7 @@ nercount = count_ent(trainDF)
 feature_set = pd.concat([trainDF, vectorizer_count, tfidf_word, tfidf_ngram, tfidf_ngram_chars, readbility, nercount],
                         axis=1)
 print(feature_set.shape)
+feature_set.to_csv('../../data/features.csv')
 
 # Grammar check
 tool = language_tool_python.LanguageTool('en-US')

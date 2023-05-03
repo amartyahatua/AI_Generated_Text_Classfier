@@ -1,3 +1,4 @@
+import shap
 import pickle
 from sklearn.metrics import f1_score
 import spacy_universal_sentence_encoder
@@ -38,6 +39,13 @@ class XGB_Classifier:
         f1 = f1_score(self.y_test, y_pred)
         print('F1 Score = ', f1)
         print(classification_report(self.y_test, y_pred))
+
+        explainer = shap.Explainer(model)
+        self.X_train = pd.DataFrame(self.X_train)
+        shap_values = explainer(self.X_train)
+
+        # visualize the first prediction's explanation
+        shap.plots.waterfall(shap_values[0])
 
 
 if __name__ == '__main__':
