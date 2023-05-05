@@ -33,7 +33,7 @@ wiki_wiki = wikipediaapi.Wikipedia(
 )
 
 # Downloading fist 100 wiki links
-dest_file = '../../data/wiki_data_extract_1_5000.csv'
+dest_file = '../../data/wiki_data_extract_1_50000.csv'
 if os. path. isfile(dest_file):
     prev_df = pd.read_csv(dest_file)
     prev_count = prev_df.shape[0]
@@ -50,18 +50,18 @@ for title in gpt_wiki_title:
             time.sleep(30)
             print('Working...')
 
-        if(count < 5000):
+        if(count < 50000):
             page_py = wiki_wiki.page(title)
             #print("Page - Title: %s" % page_py.title)
             wiki_sections(page_py.title, page_py.sections)
         else:
             result = pd.DataFrame(result, columns=['Page title', 'Section title', 'Text'])
-            result.to_csv('../../data/wiki_data_extract_1_5000.csv', mode='a', index=False, header=False)
+            result.to_csv('../../data/wiki_data_extract_1_50000.csv', mode='a', index=False, header=False)
             result = []
             break
         # Saving the result as .csv file
         result = pd.DataFrame(result, columns=['Page title', 'Section title', 'Text'])
-        result.to_csv('../../data/wiki_data_extract_1_5000.csv', mode='a', index=False, header=False)
+        result.to_csv('../../data/wiki_data_extract_1_50000.csv', mode='a', index=False, header=False)
         result = []
 
 prev_df = pd.read_csv(dest_file)

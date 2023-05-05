@@ -3,6 +3,7 @@ try:
     import requests
     import pandas as pd
     from itertools import chain
+    from newspaper import Article
     from bs4 import BeautifulSoup
     from googlesearch import search
 except ImportError:
@@ -38,27 +39,31 @@ links = list(chain.from_iterable(links))
 links = pd.DataFrame(set(links), columns=['URL'])
 
 link = links.iloc[0][0]
-r = requests.get(link)
+toi_article = Article(link, language="en") # en for English
 
-soup = BeautifulSoup(r.content, 'html5lib')
-quotes = []
+toi_article.download()
 
-table = soup.find('div', attrs={'id':'all_quotes'})
+# To parse the article
+toi_article.parse()
 
-for row in table.findAll('div',
-                         attrs = {'class':'col-6 col-lg-3 text-center margin-30px-bottom sm-margin-30px-top'}):
-    quote = {}
-    quote['theme'] = row.h5.text
-    quote['url'] = row.a['href']
-    quote['img'] = row.img['src']
-    quote['lines'] = row.img['alt'].split(" #")[0]
-    quote['author'] = row.img['alt'].split(" #")[1]
-    quotes.append(quote)
+# To perform natural language processing ie..nlp
+toi_article.nlp()
 
-filename = '../../elecetion_2024_extracted_text.csv'
-with open(filename, 'w', newline='') as f:
-    w = csv.DictWriter(f,['theme','url','img','lines','author'])
-    w.writeheader()
-    for quote in quotes:
-        w.writerow(quote)
+# To extract title
+print("Article's Title:")
+print(toi_article.title)
+print("n")
 
+# To extract text
+print("Article's Text:")
+print(toi_article.text)
+print("n")
+
+# To extract summary
+print("Article's Summary:")
+print(toi_article.summary)
+print("n")
+
+# To extract keywords
+print("Article's Keywords:")
+print(toi_article.keywords)
