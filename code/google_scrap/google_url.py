@@ -38,32 +38,34 @@ links = pd.read_csv('../../data/url_us_election_2024.csv').values.tolist()
 links = list(chain.from_iterable(links))
 links = pd.DataFrame(set(links), columns=['URL'])
 
-link = links.iloc[0][0]
-toi_article = Article(link, language="en") # en for English
 
-toi_article.download()
+for link in links['URL']:
+    try:
+        url_article = Article(link, language="en") # en for English
+        url_article.download()
 
-# To parse the article
-toi_article.parse()
+        # To parse the article
+        url_article.parse()
 
-# To perform natural language processing ie..nlp
-toi_article.nlp()
+        # To perform natural language processing ie..nlp
+        url_article.nlp()
+    except:
+        continue
+    # To extract title
+    title = pd.DataFrame([url_article.title], columns=['Title'])
 
-# To extract title
-print("Article's Title:")
-print(toi_article.title)
-print("n")
+    # To extract text
+    text = pd.DataFrame([url_article.text], columns=['Text'])
 
-# To extract text
-print("Article's Text:")
-print(toi_article.text)
-print("n")
+    # To extract summary
+    summary = pd.DataFrame([url_article.summary], columns=['Summary'])
 
-# To extract summary
-print("Article's Summary:")
-print(toi_article.summary)
-print("n")
+    # To extract keywords
+    keywords = pd.DataFrame([', '.join(url_article.keywords)], columns=['Keywords'])
 
-# To extract keywords
-print("Article's Keywords:")
-print(toi_article.keywords)
+    # Source URL
+    link = pd.DataFrame([link], columns=['Link'])
+
+    result = pd.concat([title, text, summary, keywords, link], axis=1)
+    print(result)
+    result.to_csv('../../data/extracted_data_us_election_2024.csv', mode='a', index=False, header=False)
