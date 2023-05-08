@@ -1,7 +1,8 @@
 # AI Generated Text Classfier
 ## Data collection 
 ### Wiki data collection
-### Reverse data collection
+#### Reverse data collection
+### US Election 2024
 ## Data preprocessing 
 ## Feature engineering 
 ### LDA Topic modeling
