@@ -3,7 +3,7 @@
 ### Wiki data collection
 #### Reverse data collection
 ### US Election 2024
-### Get news links from different sources
+#### Get news links from different sources
 ## Data preprocessing 
 ## Feature engineering 
 ### LDA Topic modeling
