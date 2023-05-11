@@ -4,6 +4,7 @@
 #### Reverse data collection
 ### US Election 2024
 #### Get news links from different sources
+#### Extract data from the links
 ## Data preprocessing 
 ## Feature engineering 
 ### LDA Topic modeling
