@@ -5,6 +5,7 @@
 ### US Election 2024
 #### Get news links from different sources
 #### Extract data from the links
+#### Find the topics
 ## Data preprocessing 
 ## Feature engineering 
 ### LDA Topic modeling
