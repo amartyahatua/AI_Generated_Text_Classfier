@@ -1,7 +1,12 @@
 # AI Generated Text Classfier
 ## Data collection 
 ### Wiki data collection
-### Reverse data collection
+#### Reverse data collection
+### US Election 2024
+#### Get news links from different sources
+#### Extract data from the links
+#### Find the topics (get words)
+#### Ask ChatGPT to form questions using those words
 ## Data preprocessing 
 ## Feature engineering 
 ### LDA Topic modeling
