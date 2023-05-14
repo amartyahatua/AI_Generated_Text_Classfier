@@ -1,4 +1,4 @@
-API_KEY = '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'
+API_KEY = ''
 import time
 import pandas as pd
 import openai
