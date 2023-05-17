@@ -8,13 +8,12 @@ def jaccard_similarity(query, document):
     return len(intersection) / len(union)
 
 
-# def cosine_distance_wordembedding_method(s1, s2):
-#     model = loadGloveModel(gloveFile)
-#     vector_1 = np.mean([model[word] for word in preprocess(s1)], axis=0)
-#     vector_2 = np.mean([model[word] for word in preprocess(s2)], axis=0)
-#     cosine = scipy.spatial.distance.cosine(vector_1, vector_2)
-#     print('Word Embedding method with a cosine distance asses that our two sentences are similar to',
-#           round((1 - cosine) * 100, 2), '%')
+def cosine_distance_wordembedding_method(s1, s2):
+    vector_1 = np.mean([model[word] for word in preprocess(s1)], axis=0)
+    vector_2 = np.mean([model[word] for word in preprocess(s2)], axis=0)
+    cosine = scipy.spatial.distance.cosine(vector_1, vector_2)
+    print('Word Embedding method with a cosine distance asses that our two sentences are similar to',
+          round((1 - cosine) * 100, 2), '%')
 
 
 def jensen_shannon(query, matrix):
