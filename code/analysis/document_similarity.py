@@ -3,9 +3,9 @@
 import pandas as pd
 import numpy as np
 from nltk.corpus import stopwords
-#import nltk
+# import nltk
 
-#nltk.download('stopwords')
+# nltk.download('stopwords')
 import re
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
@@ -17,53 +17,72 @@ model = SentenceTransformer('bert-base-nli-mean-tokens')
 
 us_election_qa = pd.read_csv('../../data/chatgpt_generated_us_election_2024_questions_answers_combine.csv')
 
-for i in tqdm(range(us_election_qa.shape[0])):
-    if i > 0:
-        break
-    compare_embedd = []
 
-    row_text = us_election_qa.iloc[i]['Text']
-    row_text_embd = model.encode(row_text)
+def cosine_similarity_sentence_transformer():
+    similarities = pd.DataFrame()
+    for i in tqdm(range(us_election_qa.shape[0])):
+        if i > 1:
+            break
+        compare_embedd = []
+        ai_gen_text = []
+        row_text = us_election_qa.iloc[i]['Text']
+        row_text_embd = model.encode(row_text)
 
-    row_ans1 = us_election_qa.iloc[i]['Answer 1']
-    row_ans1_embd = model.encode(row_ans1)
-    compare_embedd.append(row_ans1_embd)
+        ai_gen_text.append(us_election_qa.iloc[i]['Answer 1']) if us_election_qa.iloc[i][
+                                                                      'Answer 1'] is not None else None
+        ai_gen_text.append(us_election_qa.iloc[i]['Answer 2']) if us_election_qa.iloc[i][
+                                                                      'Answer 2'] is not None else None
+        ai_gen_text.append(us_election_qa.iloc[i]['Answer 3']) if us_election_qa.iloc[i][
+                                                                      'Answer 3'] is not None else None
+        ai_gen_text.append(us_election_qa.iloc[i]['Answer 4']) if us_election_qa.iloc[i][
+                                                                      'Answer 4'] is not None else None
+        ai_gen_text.append(us_election_qa.iloc[i]['Answer 5']) if us_election_qa.iloc[i][
+                                                                      'Answer 5'] is not None else None
+        ai_gen_text.append(us_election_qa.iloc[i]['Answer 6']) if us_election_qa.iloc[i][
+                                                                      'Answer 6'] is not None else None
+        ai_gen_text.append(us_election_qa.iloc[i]['Answer 7']) if us_election_qa.iloc[i][
+                                                                      'Answer 7'] is not None else None
+        ai_gen_text.append(us_election_qa.iloc[i]['Answer 8']) if us_election_qa.iloc[i][
+                                                                      'Answer 8'] is not None else None
+        ai_gen_text.append(us_election_qa.iloc[i]['Answer 9']) if us_election_qa.iloc[i][
+                                                                      'Answer 9'] is not None else None
+        ai_gen_text.append(us_election_qa.iloc[i]['Answer 10']) if us_election_qa.iloc[i][
+                                                                       'Answer 10'] is not None else None
+        compare_embedd = model.encode(ai_gen_text)
 
-    row_ans2 = us_election_qa.iloc[i]['Answer 2']
-    row_ans2_embd = model.encode(row_ans2)
-    compare_embedd.append(row_ans2_embd)
+        similarities_temp = pd.DataFrame(cosine_similarity([row_text_embd], compare_embedd),
+                                         columns=['Cos Similarity 1', 'Cos Similarity 2', 'Cos Similarity 3',
+                                                  'Cos Similarity 4',
+                                                  'Cos Similarity 5', 'Cos Similarity 6', 'Cos Similarity 7',
+                                                  'Cos Similarity 8',
+                                                  'Cos Similarity 9', 'Cos Similarity 10'])
+        similarities = pd.concat([similarities_temp, similarities], axis=0)
 
-    row_ans3 = us_election_qa.iloc[i]['Answer 3']
-    row_ans3_embd = model.encode(row_ans3)
-    compare_embedd.append(row_ans3_embd)
+    similarities = similarities.reset_index(drop=True)
 
-    row_ans4 = us_election_qa.iloc[i]['Answer 4']
-    row_ans4_embd = model.encode(row_ans4)
-    compare_embedd.append(row_ans4_embd)
+    us_election_qa_smilarity = pd.concat(
+        [us_election_qa[['Title', 'Text', 'Summary', 'Keywords', 'Question 1', 'Answer 1']],
+         similarities['Cos Similarity 1'],
+         us_election_qa[['Question 2', 'Answer 2']],
+         similarities['Cos Similarity 2'],
+         us_election_qa[['Question 3', 'Answer 3']],
+         similarities['Cos Similarity 3'],
+         us_election_qa[['Question 4', 'Answer 4']],
+         similarities['Cos Similarity 4'],
+         us_election_qa[['Question 5', 'Answer 5']],
+         similarities['Cos Similarity 5'],
+         us_election_qa[['Question 6', 'Answer 6']],
+         similarities['Cos Similarity 6'],
+         us_election_qa[['Question 7', 'Answer 7']],
+         similarities['Cos Similarity 7'],
+         us_election_qa[['Question 8', 'Answer 8']],
+         similarities['Cos Similarity 8'],
+         us_election_qa[['Question 9', 'Answer 9']],
+         similarities['Cos Similarity 9'],
+         us_election_qa[['Question 10', 'Answer 10']],
+         similarities['Cos Similarity 10']], axis=1)
 
-    row_ans5 = us_election_qa.iloc[i]['Answer 5']
-    row_ans5_embd = model.encode(row_ans5)
-    compare_embedd.append(row_ans5_embd)
+    print(us_election_qa_smilarity)
 
-    row_ans6 = us_election_qa.iloc[i]['Answer 6']
-    row_ans6_embd = model.encode(row_ans6)
-    compare_embedd.append(row_ans6_embd)
 
-    row_ans7 = us_election_qa.iloc[i]['Answer 7']
-    row_ans7_embd = model.encode(row_ans7)
-    compare_embedd.append(row_ans7_embd)
-
-    row_ans8 = us_election_qa.iloc[i]['Answer 8']
-    row_ans8_embd = model.encode(row_ans8)
-    compare_embedd.append(row_ans8_embd)
-
-    row_ans9 = us_election_qa.iloc[i]['Answer 9']
-    row_ans9_embd = model.encode(row_ans9)
-    compare_embedd.append(row_ans9_embd)
-
-    row_ans10 = us_election_qa.iloc[i]['Answer 10']
-    row_ans10_embd = model.encode(row_ans10)
-    compare_embedd.append(row_ans10_embd)
-
-similarities = cosine_similarity([row_text_embd], compare_embedd)
-print('pairwise dense output:\n {}\n'.format(similarities))
+cosine_similarity_sentence_transformer()
