@@ -21,9 +21,6 @@ us_election_qa = pd.read_csv('../../data/chatgpt_generated_us_election_2024_ques
 def cosine_similarity_sentence_transformer():
     similarities = pd.DataFrame()
     for i in tqdm(range(us_election_qa.shape[0])):
-        if i > 1:
-            break
-        compare_embedd = []
         ai_gen_text = []
         row_text = us_election_qa.iloc[i]['Text']
         row_text_embd = model.encode(row_text)
@@ -82,7 +79,8 @@ def cosine_similarity_sentence_transformer():
          us_election_qa[['Question 10', 'Answer 10']],
          similarities['Cos Similarity 10']], axis=1)
 
-    print(us_election_qa_smilarity)
+    print(us_election_qa_smilarity.shape)
+    us_election_qa_smilarity.to_csv('../../data/chatgpt_generated_us_election_2024_questions_answers_similarity.csv', index=False)
 
 
 cosine_similarity_sentence_transformer()
