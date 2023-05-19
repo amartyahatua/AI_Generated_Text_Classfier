@@ -10,6 +10,7 @@ from readability import Readability     #pip install py-readability-metrics
 import spacy
 import language_tool_python             #python -m pip install language_tool_python
 from octis_topicmodeling import train_save_neurallda
+from text_processing import text_preprocessing
 
 nlp = spacy.load("en_core_web_sm")      #python3 -m spacy download en_core_web_sm
 
@@ -101,6 +102,15 @@ def count_grammar_error(df):
     x = tool.check(df)
     return len(x)
 
+vocab = []
+with open('./data/wiki_5k_gt/vocabulary.txt', 'r') as vocabulary_file:
+    for line in vocabulary_file:
+        if line.strip() not in vocab:
+            vocab.append(line.strip())
+with open('./data/wiki_5k_chatgpt/vocabulary.txt', 'r') as vocabulary_file:
+    for line in vocabulary_file:
+        if line.strip() not in vocab:
+            vocab.append(line.strip())
 def feature_extraction(inputPath='./data/chatgpt_generated_wiki_data_1_5000.csv', source=0):
     if source == 1:
         selected_col = 'GPT_Generated_Text'
@@ -133,8 +143,24 @@ def feature_extraction(inputPath='./data/chatgpt_generated_wiki_data_1_5000.csv'
     trainDF['pron_count'] = trainDF[selected_col].apply(lambda x: check_pos_tag(x, 'pron'))
     print('step 2 char_count: ', len(trainDF['char_count']), len(trainDF['word_count']))
 
-    count_vect = CountVectorizer(analyzer='word', token_pattern=r'\w{1,}')
-    count_vect.fit(trainDF[selected_col])
+    # vocab = []
+    # for index, row in trainDF.iterrows():
+    #     Processed_Content = text_preprocessing(str(row['Text']))
+    #     if len( str(Processed_Content).strip() ) > 0:
+    #         for word in Processed_Content:
+    #             if word not in vocab:
+    #                 vocab.append(word)
+    #     Processed_Content = text_preprocessing(str(row['GPT_Generated_Text']))
+    #     if len( str(Processed_Content).strip() ) > 0:
+    #         for word in Processed_Content:
+    #             if word not in vocab:
+    #                 vocab.append(word)
+    # vocab.sort()
+    count_vect = CountVectorizer(analyzer='word', token_pattern=r'\w{1,}', vocabulary=vocab)
+    #text_data = pd.concat([trainDF['Text'], trainDF['GPT_Generated_Text']])
+    #text_data.dropna(inplace=True)
+    #count_vect.fit(text_data)
+    #count_vect.fit(trainDF[['Text', 'GPT_Generated_Text']])
     vectorizer_count = count_vect.transform(trainDF[selected_col])
     vectorizer_count = pd.DataFrame(vectorizer_count.toarray())
     print('step 3 vectorizer_count.shape: ', vectorizer_count.shape)
@@ -186,5 +212,5 @@ def feature_extraction(inputPath='./data/chatgpt_generated_wiki_data_1_5000.csv'
     # Grammar check
     trainDF['text_error_length'] = trainDF[selected_col].apply(count_grammar_error)
 
-#feature_extraction(source=0)   #process TEXT column in './data/chatgpt_generated_wiki_data_1_5000.csv'
-feature_extraction(source=1)   #process GPT_Generated_Text column in './data/chatgpt_generated_wiki_data_1_5000.csv'
+feature_extraction(source=0)   #process TEXT column in './data/chatgpt_generated_wiki_data_1_5000.csv'
+#feature_extraction(source=1)   #process GPT_Generated_Text column in './data/chatgpt_generated_wiki_data_1_5000.csv'
