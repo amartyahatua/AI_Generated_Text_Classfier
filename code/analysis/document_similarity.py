@@ -157,7 +157,10 @@ def find_jaccard_similarity():
 
 
 cosine_similarity = cosine_similarity_sentence_transformer()
+cosine_similarity = cosine_similarity.reset_index(drop=True)
+
 jaccard_similarity = find_jaccard_similarity()
+jaccard_similarity = jaccard_similarity.reset_index(drop=True)
 
 us_election_qa_smilarity = pd.concat(
     [us_election_qa[['Title', 'Text', 'Summary', 'Keywords', 'Question 1', 'Answer 1']],
@@ -184,9 +187,9 @@ us_election_qa_smilarity = pd.concat(
 # print(us_election_qa_smilarity.shape)
 # cosine_similarity.to_csv('../../data/chatgpt_generated_us_election_2024_questions_answers_cosine_similarity.csv',
 #                                 index=False)
-
+#
 # jaccard_similarity.to_csv('../../data/chatgpt_generated_us_election_2024_questions_answers_jaccard_similarity.csv',
 #                                 index=False)
 
 us_election_qa_smilarity.to_csv('../../data/chatgpt_generated_us_election_2024_questions_answers_similarity.csv',
-                                index=False)
+                              index=False)
