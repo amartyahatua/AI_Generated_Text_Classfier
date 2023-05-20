@@ -184,12 +184,5 @@ us_election_qa_smilarity = pd.concat(
      us_election_qa[['Question 10', 'Answer 10']],
      cosine_similarity['Cos Similarity 10'], jaccard_similarity['JAC Similarity 10'],], axis=1)
 
-# print(us_election_qa_smilarity.shape)
-# cosine_similarity.to_csv('../../data/chatgpt_generated_us_election_2024_questions_answers_cosine_similarity.csv',
-#                                 index=False)
-#
-# jaccard_similarity.to_csv('../../data/chatgpt_generated_us_election_2024_questions_answers_jaccard_similarity.csv',
-#                                 index=False)
-
 us_election_qa_smilarity.to_csv('../../data/chatgpt_generated_us_election_2024_questions_answers_similarity.csv',
                               index=False)
