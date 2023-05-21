@@ -3,16 +3,12 @@
 import pandas as pd
 import numpy as np
 from nltk.corpus import stopwords
-# import nltk
-
-# nltk.download('stopwords')
 import re
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.metrics.pairwise import euclidean_distances
 from sentence_transformers import SentenceTransformer
 from tqdm import tqdm
-
 model = SentenceTransformer('bert-base-nli-mean-tokens')
 us_election_qa = pd.read_csv('../../data/chatgpt_generated_us_election_2024_questions_answers_combine.csv')
 
@@ -186,3 +182,24 @@ us_election_qa_smilarity = pd.concat(
 
 us_election_qa_smilarity.to_csv('../../data/chatgpt_generated_us_election_2024_questions_answers_similarity.csv',
                               index=False)
+
+
+similarity = pd.read_csv('../../data/chatgpt_generated_us_election_2024_questions_answers_similarity.csv')
+cosine_list = pd.DataFrame()
+cosine_list['Cos Similarity'] = pd.concat([similarity['Cos Similarity 1'], similarity['Cos Similarity 2'], similarity['Cos Similarity 3'], similarity['Cos Similarity 4'], \
+                        similarity['Cos Similarity 5'], similarity['Cos Similarity 6'], similarity['Cos Similarity 7'], similarity['Cos Similarity 8'], \
+                        similarity['Cos Similarity 9'], similarity['Cos Similarity 10']], axis=0, ignore_index=True)
+
+
+jac_smilarity = pd.concat([similarity['JAC Similarity 1'], similarity['JAC Similarity 2'], similarity['JAC Similarity 3'], similarity['JAC Similarity 4'], \
+                           similarity['JAC Similarity 5'], similarity['JAC Similarity 6'], similarity['JAC Similarity 7'], similarity['JAC Similarity 8'], \
+                           similarity['JAC Similarity 9'], similarity['JAC Similarity 10']], axis=0, ignore_index=True)
+p = cosine_list[cosine_list['Cos Similarity']>0]
+
+p["quantile"], bins = pd.qcut(p["Cos Similarity"], q=[0, 0.1, 0.5, 0.8, 0.9, 1],
+                               labels=["5th", "4th", "3rd", "2nd", "1st"],
+                               retbins=True)
+
+print(p)
+print(bins)
+print(p["quantile"].value_counts())
