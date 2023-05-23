@@ -11,6 +11,7 @@
 ## Data preprocessing 
 ## Feature engineering 
 ### LDA Topic modeling
+### Save all the features
 ## Exploratory Data Analysis 
 ## Machine Learning model
 ### Random forest
