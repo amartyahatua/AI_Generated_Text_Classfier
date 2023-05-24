@@ -152,36 +152,36 @@ def find_jaccard_similarity():
     return similarities
 
 
-cosine_similarity = cosine_similarity_sentence_transformer()
-cosine_similarity = cosine_similarity.reset_index(drop=True)
-
-jaccard_similarity = find_jaccard_similarity()
-jaccard_similarity = jaccard_similarity.reset_index(drop=True)
-
-us_election_qa_smilarity = pd.concat(
-    [us_election_qa[['Title', 'Text', 'Summary', 'Keywords', 'Question 1', 'Answer 1']],
-     cosine_similarity['Cos Similarity 1'], jaccard_similarity['JAC Similarity 1'],
-     us_election_qa[['Question 2', 'Answer 2']],
-     cosine_similarity['Cos Similarity 2'], jaccard_similarity['JAC Similarity 2'],
-     us_election_qa[['Question 3', 'Answer 3']],
-     cosine_similarity['Cos Similarity 3'], jaccard_similarity['JAC Similarity 3'],
-     us_election_qa[['Question 4', 'Answer 4']],
-     cosine_similarity['Cos Similarity 4'], jaccard_similarity['JAC Similarity 4'],
-     us_election_qa[['Question 5', 'Answer 5']],
-     cosine_similarity['Cos Similarity 5'], jaccard_similarity['JAC Similarity 5'],
-     us_election_qa[['Question 6', 'Answer 6']],
-     cosine_similarity['Cos Similarity 6'], jaccard_similarity['JAC Similarity 6'],
-     us_election_qa[['Question 7', 'Answer 7']],
-     cosine_similarity['Cos Similarity 7'], jaccard_similarity['JAC Similarity 7'],
-     us_election_qa[['Question 8', 'Answer 8']],
-     cosine_similarity['Cos Similarity 8'], jaccard_similarity['JAC Similarity 8'],
-     us_election_qa[['Question 9', 'Answer 9']],
-     cosine_similarity['Cos Similarity 9'], jaccard_similarity['JAC Similarity 9'],
-     us_election_qa[['Question 10', 'Answer 10']],
-     cosine_similarity['Cos Similarity 10'], jaccard_similarity['JAC Similarity 10'],], axis=1)
-
-us_election_qa_smilarity.to_csv('../../data/chatgpt_generated_us_election_2024_questions_answers_similarity.csv',
-                              index=False)
+# cosine_similarity = cosine_similarity_sentence_transformer()
+# cosine_similarity = cosine_similarity.reset_index(drop=True)
+#
+# jaccard_similarity = find_jaccard_similarity()
+# jaccard_similarity = jaccard_similarity.reset_index(drop=True)
+#
+# us_election_qa_smilarity = pd.concat(
+#     [us_election_qa[['Title', 'Text', 'Summary', 'Keywords', 'Question 1', 'Answer 1']],
+#      cosine_similarity['Cos Similarity 1'], jaccard_similarity['JAC Similarity 1'],
+#      us_election_qa[['Question 2', 'Answer 2']],
+#      cosine_similarity['Cos Similarity 2'], jaccard_similarity['JAC Similarity 2'],
+#      us_election_qa[['Question 3', 'Answer 3']],
+#      cosine_similarity['Cos Similarity 3'], jaccard_similarity['JAC Similarity 3'],
+#      us_election_qa[['Question 4', 'Answer 4']],
+#      cosine_similarity['Cos Similarity 4'], jaccard_similarity['JAC Similarity 4'],
+#      us_election_qa[['Question 5', 'Answer 5']],
+#      cosine_similarity['Cos Similarity 5'], jaccard_similarity['JAC Similarity 5'],
+#      us_election_qa[['Question 6', 'Answer 6']],
+#      cosine_similarity['Cos Similarity 6'], jaccard_similarity['JAC Similarity 6'],
+#      us_election_qa[['Question 7', 'Answer 7']],
+#      cosine_similarity['Cos Similarity 7'], jaccard_similarity['JAC Similarity 7'],
+#      us_election_qa[['Question 8', 'Answer 8']],
+#      cosine_similarity['Cos Similarity 8'], jaccard_similarity['JAC Similarity 8'],
+#      us_election_qa[['Question 9', 'Answer 9']],
+#      cosine_similarity['Cos Similarity 9'], jaccard_similarity['JAC Similarity 9'],
+#      us_election_qa[['Question 10', 'Answer 10']],
+#      cosine_similarity['Cos Similarity 10'], jaccard_similarity['JAC Similarity 10'],], axis=1)
+#
+# us_election_qa_smilarity.to_csv('../../data/chatgpt_generated_us_election_2024_questions_answers_similarity.csv',
+#                               index=False)
 
 
 similarity = pd.read_csv('../../data/chatgpt_generated_us_election_2024_questions_answers_similarity.csv')
@@ -194,12 +194,42 @@ cosine_list['Cos Similarity'] = pd.concat([similarity['Cos Similarity 1'], simil
 jac_smilarity = pd.concat([similarity['JAC Similarity 1'], similarity['JAC Similarity 2'], similarity['JAC Similarity 3'], similarity['JAC Similarity 4'], \
                            similarity['JAC Similarity 5'], similarity['JAC Similarity 6'], similarity['JAC Similarity 7'], similarity['JAC Similarity 8'], \
                            similarity['JAC Similarity 9'], similarity['JAC Similarity 10']], axis=0, ignore_index=True)
-p = cosine_list[cosine_list['Cos Similarity']>0]
+df = pd.DataFrame(jac_smilarity, columns=['JAC Similarity'])
+print(df.columns)
+df['JAC Similarity'] = df[df['JAC Similarity']>0]
+print(max(df['JAC Similarity']))
+print(min(df['JAC Similarity']))
 
-p["quantile"], bins = pd.qcut(p["Cos Similarity"], q=[0, 0.1, 0.5, 0.8, 0.9, 1],
-                               labels=["5th", "4th", "3rd", "2nd", "1st"],
-                               retbins=True)
+pd.qcut(df['JAC Similarity'], q=4)
 
-print(p)
-print(bins)
-print(p["quantile"].value_counts())
+
+# first_bin = 0
+# second_bin = 0
+# third_bin = 0
+# fourth_bin = 0
+# fifth_bin = 0
+# sixth_bin = 0
+# jac_smilarity['JAC Similarity'] = jac_smilarity
+# print(jac_smilarity['JAC Similarity'].shape)
+#
+#
+# for i in jac_smilarity:
+#     if(i>=0 or i<=0.2):
+#         first_bin += 1
+#     elif (i >= 0 or i <= 0.2):
+#         second_bin += 1
+#     elif (i > 0.2 or i <= 0.4):
+#         third_bin += 1
+#     elif (i > 0.4 or i <= 0.6):
+#         fourth_bin += 1
+#     elif (i > 0.6 or i <= 0.8):
+#         fifth_bin += 1
+#     elif(i > 0.8 or i <= 1.0):
+#         sixth_bin += 1
+#
+# print(first_bin)
+# print(second_bin)
+# print(third_bin)
+# print(fourth_bin)
+# print(fifth_bin)
+# print(sixth_bin)
