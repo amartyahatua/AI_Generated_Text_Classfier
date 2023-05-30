@@ -1,4 +1,4 @@
-# AI Generated Text Classfier
+# AI Generated Text Classfiers
 ## Data collection 
 ### Wiki data collection
 #### Reverse data collection
