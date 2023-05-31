@@ -1,4 +1,4 @@
-# AI Generated Text Classfier
+# AI Generated Text Classfiers
 ## Data collection 
 ### Wiki data collection
 #### Reverse data collection
@@ -7,7 +7,7 @@
 #### Extract data from the links
 #### Find the topics (get words)
 #### Ask ChatGPT to form questions using those words
-##### Collect the ChatGPT answers and use as AI generated text
+#### Collect the ChatGPT answers and use as AI generated text
 ## Data preprocessing 
 ## Feature engineering 
 ### LDA Topic modeling

@@ -9,6 +9,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.metrics.pairwise import euclidean_distances
 from sentence_transformers import SentenceTransformer
 from tqdm import tqdm
+
 model = SentenceTransformer('bert-base-nli-mean-tokens')
 us_election_qa = pd.read_csv('../../data/chatgpt_generated_us_election_2024_questions_answers_combine.csv')
 
@@ -23,34 +24,34 @@ def cosine_similarity_sentence_transformer():
 
             ai_gen_text.append(us_election_qa.iloc[i]['Answer 1']) if us_election_qa.iloc[i][
                                                                           'Answer 1'] is not None else \
-            us_election_qa.iloc[i]['Title']
+                us_election_qa.iloc[i]['Title']
             ai_gen_text.append(us_election_qa.iloc[i]['Answer 2']) if us_election_qa.iloc[i][
                                                                           'Answer 2'] is not None else \
-            us_election_qa.iloc[i]['Title']
+                us_election_qa.iloc[i]['Title']
             ai_gen_text.append(us_election_qa.iloc[i]['Answer 3']) if us_election_qa.iloc[i][
                                                                           'Answer 3'] is not None else \
-            us_election_qa.iloc[i]['Title']
+                us_election_qa.iloc[i]['Title']
             ai_gen_text.append(us_election_qa.iloc[i]['Answer 4']) if us_election_qa.iloc[i][
                                                                           'Answer 4'] is not None else \
-            us_election_qa.iloc[i]['Title']
+                us_election_qa.iloc[i]['Title']
             ai_gen_text.append(us_election_qa.iloc[i]['Answer 5']) if us_election_qa.iloc[i][
                                                                           'Answer 5'] is not None else \
-            us_election_qa.iloc[i]['Title']
+                us_election_qa.iloc[i]['Title']
             ai_gen_text.append(us_election_qa.iloc[i]['Answer 6']) if us_election_qa.iloc[i][
                                                                           'Answer 6'] is not None else \
-            us_election_qa.iloc[i]['Title']
+                us_election_qa.iloc[i]['Title']
             ai_gen_text.append(us_election_qa.iloc[i]['Answer 7']) if us_election_qa.iloc[i][
                                                                           'Answer 7'] is not None else \
-            us_election_qa.iloc[i]['Title']
+                us_election_qa.iloc[i]['Title']
             ai_gen_text.append(us_election_qa.iloc[i]['Answer 8']) if us_election_qa.iloc[i][
                                                                           'Answer 8'] is not None else \
-            us_election_qa.iloc[i]['Title']
+                us_election_qa.iloc[i]['Title']
             ai_gen_text.append(us_election_qa.iloc[i]['Answer 9']) if us_election_qa.iloc[i][
                                                                           'Answer 9'] is not None else \
-            us_election_qa.iloc[i]['Title']
+                us_election_qa.iloc[i]['Title']
             ai_gen_text.append(us_election_qa.iloc[i]['Answer 10']) if us_election_qa.iloc[i][
                                                                            'Answer 10'] is not None else \
-            us_election_qa.iloc[i]['Title']
+                us_election_qa.iloc[i]['Title']
             compare_embedd = model.encode(ai_gen_text)
 
             similarities_temp = pd.DataFrame(cosine_similarity([row_text_embd], compare_embedd),
@@ -72,7 +73,7 @@ def cosine_similarity_sentence_transformer():
             continue
 
     similarities = similarities.reset_index(drop=True)
-    return  similarities
+    return similarities
 
 
 def jaccard_similarity(doc1, doc2):
@@ -186,50 +187,65 @@ def find_jaccard_similarity():
 
 similarity = pd.read_csv('../../data/chatgpt_generated_us_election_2024_questions_answers_similarity.csv')
 cosine_list = pd.DataFrame()
-cosine_list['Cos Similarity'] = pd.concat([similarity['Cos Similarity 1'], similarity['Cos Similarity 2'], similarity['Cos Similarity 3'], similarity['Cos Similarity 4'], \
-                        similarity['Cos Similarity 5'], similarity['Cos Similarity 6'], similarity['Cos Similarity 7'], similarity['Cos Similarity 8'], \
-                        similarity['Cos Similarity 9'], similarity['Cos Similarity 10']], axis=0, ignore_index=True)
+cosine_list['Cos Similarity'] = pd.concat(
+    [similarity['Cos Similarity 1'], similarity['Cos Similarity 2'], similarity['Cos Similarity 3'],
+     similarity['Cos Similarity 4'], \
+     similarity['Cos Similarity 5'], similarity['Cos Similarity 6'], similarity['Cos Similarity 7'],
+     similarity['Cos Similarity 8'], \
+     similarity['Cos Similarity 9'], similarity['Cos Similarity 10']], axis=0, ignore_index=True)
 
-
-jac_smilarity = pd.concat([similarity['JAC Similarity 1'], similarity['JAC Similarity 2'], similarity['JAC Similarity 3'], similarity['JAC Similarity 4'], \
-                           similarity['JAC Similarity 5'], similarity['JAC Similarity 6'], similarity['JAC Similarity 7'], similarity['JAC Similarity 8'], \
-                           similarity['JAC Similarity 9'], similarity['JAC Similarity 10']], axis=0, ignore_index=True)
+jac_smilarity = pd.concat(
+    [similarity['JAC Similarity 1'], similarity['JAC Similarity 2'], similarity['JAC Similarity 3'],
+     similarity['JAC Similarity 4'], \
+     similarity['JAC Similarity 5'], similarity['JAC Similarity 6'], similarity['JAC Similarity 7'],
+     similarity['JAC Similarity 8'], \
+     similarity['JAC Similarity 9'], similarity['JAC Similarity 10']], axis=0, ignore_index=True)
 df = pd.DataFrame(jac_smilarity, columns=['JAC Similarity'])
 print(df.columns)
-df['JAC Similarity'] = df[df['JAC Similarity']>0]
-print(max(df['JAC Similarity']))
-print(min(df['JAC Similarity']))
+df['JAC Similarity'] = df[df['JAC Similarity'] > 0]
+print('MAX JAC', max(df['JAC Similarity']))
+print('MIN JAC', min(df['JAC Similarity']))
 
-pd.qcut(df['JAC Similarity'], q=4)
+cos_smilarity = pd.concat(
+    [similarity['Cos Similarity 1'], similarity['Cos Similarity 2'], similarity['Cos Similarity 3'],
+     similarity['Cos Similarity 4'], \
+     similarity['Cos Similarity 5'], similarity['Cos Similarity 6'], similarity['Cos Similarity 7'],
+     similarity['Cos Similarity 8'], \
+     similarity['Cos Similarity 9'], similarity['Cos Similarity 10']], axis=0, ignore_index=True)
+df = pd.DataFrame(cos_smilarity, columns=['Cos Similarity'])
+print(df.columns)
+df['Cos Similarity'] = df[df['Cos Similarity'] > 0]
+print('MAX Cos', max(df['Cos Similarity']))
+print('MIN Cos', min(df['Cos Similarity']))
 
+first_bin = 0
+second_bin = 0
+third_bin = 0
+fourth_bin = 0
+fifth_bin = 0
+jac_smilarity['Cos Similarity'] = cos_smilarity
+print(df['Cos Similarity'].shape)
 
-# first_bin = 0
-# second_bin = 0
-# third_bin = 0
-# fourth_bin = 0
-# fifth_bin = 0
-# sixth_bin = 0
-# jac_smilarity['JAC Similarity'] = jac_smilarity
-# print(jac_smilarity['JAC Similarity'].shape)
-#
-#
-# for i in jac_smilarity:
-#     if(i>=0 or i<=0.2):
-#         first_bin += 1
-#     elif (i >= 0 or i <= 0.2):
-#         second_bin += 1
-#     elif (i > 0.2 or i <= 0.4):
-#         third_bin += 1
-#     elif (i > 0.4 or i <= 0.6):
-#         fourth_bin += 1
-#     elif (i > 0.6 or i <= 0.8):
-#         fifth_bin += 1
-#     elif(i > 0.8 or i <= 1.0):
-#         sixth_bin += 1
-#
-# print(first_bin)
-# print(second_bin)
-# print(third_bin)
-# print(fourth_bin)
-# print(fifth_bin)
-# print(sixth_bin)
+for i in df['Cos Similarity']:
+    if i >= 0 and i <= 0.2:
+        first_bin += 1
+    elif i > 0.2 and i <= 0.4:
+        second_bin += 1
+    elif i > 0.4 and i <= 0.6:
+        third_bin += 1
+    elif i > 0.6 and i <= 0.8:
+        fourth_bin += 1
+    elif i > 0.8 and i <= 1:
+        fifth_bin += 1
+
+print('First bin: ', first_bin)
+print('Second bin: ', second_bin)
+print('Third bin: ', third_bin)
+print('Fourth bin: ',fourth_bin)
+print('Fifth bin: ',fifth_bin)
+
+print("{:.2f} % document with Cosine similarity 0 to 0.2".format(first_bin/df['Cos Similarity'].shape[0]*100))
+print("{:.2f} % document has Cosine similarity 0.2 to 0.4".format(second_bin/df['Cos Similarity'].shape[0]*100))
+print("{:.2f} % document has Cosine similarity 0.4 to 0.6".format(third_bin/df['Cos Similarity'].shape[0]*100))
+print("{:.2f} % document has Cosine similarity 0.6 to 0.8".format(fourth_bin/df['Cos Similarity'].shape[0]*100))
+print("{:.2f} % document has Cosine similarity 0.8 to 1.0".format(fifth_bin/df['Cos Similarity'].shape[0]*100))
