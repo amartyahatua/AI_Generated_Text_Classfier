@@ -278,6 +278,8 @@ def us_election_lda_data_processing(inputPath='./data/chatgpt_generated_us_elect
 
 def us_election_feature_extraction(inputPath='./data/chatgpt_generated_us_election_2024_questions_answers_combine.csv'):
     trainDF = pd.read_csv(inputPath)
+    indexes = trainDF.index.values  
+    trainDF.insert( 0, column="indexes", value = indexes)
     vocab = []
     for i in range(11):
         lda_dataset_path = './data/uselection_' + ('gt' if i == 0 else 'q' + str(i))
@@ -350,8 +352,8 @@ def us_election_feature_extraction(inputPath='./data/chatgpt_generated_us_electi
         #extract topic modeling features (20 columns)
         _, _, lda_df = train_save_neurallda(dataset_path=lda_dataset_path, out_folder=lda_model_folder)
 
-        #extract word features
-        feat_df = trainDF[[selected_col, 'word_count', 'char_count', 'word_density', 'punctuation_count', 'title_word_count', 
+        #extract word features      
+        feat_df = trainDF[['indexes', selected_col, 'word_count', 'char_count', 'word_density', 'punctuation_count', 'title_word_count', 
                         'upper_case_word_count', 'noun_count', 'verb_count', 'adj_count', 'adv_count', 'pron_count', 'text_error_length']]
         feat_df.rename(columns={selected_col : 'Text'})
         print('step 9 nercount.shape: ', feat_df.shape)
