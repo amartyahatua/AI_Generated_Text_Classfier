@@ -8,6 +8,7 @@
 #### Find the topics (get words)
 #### Ask ChatGPT to form questions using those words
 #### Collect the ChatGPT answers and use as AI generated text
+#### Calculate text similarity
 ## Data preprocessing 
 ## Feature engineering 
 ### LDA Topic modeling
