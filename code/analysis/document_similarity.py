@@ -249,3 +249,25 @@ print("{:.2f} % document has Cosine similarity 0.2 to 0.4".format(second_bin/df[
 print("{:.2f} % document has Cosine similarity 0.4 to 0.6".format(third_bin/df['Cos Similarity'].shape[0]*100))
 print("{:.2f} % document has Cosine similarity 0.6 to 0.8".format(fourth_bin/df['Cos Similarity'].shape[0]*100))
 print("{:.2f} % document has Cosine similarity 0.8 to 1.0".format(fifth_bin/df['Cos Similarity'].shape[0]*100))
+
+more_than_50 = 0
+less_than_50 = 0
+
+for i in df['Cos Similarity']:
+    if i >= 0 and i <= 0.5:
+        less_than_50 += 1
+    elif i > 0.5 and i <= 1:
+        more_than_50 += 1
+
+print('First bin: ', less_than_50)
+print('Second bin: ', more_than_50)
+# print('Third bin: ', third_bin)
+# print('Fourth bin: ',fourth_bin)
+# print('Fifth bin: ',fifth_bin)
+#
+# print("{:.2f} % document with Cosine similarity 0 to 0.2".format(first_bin/df['Cos Similarity'].shape[0]*100))
+# print("{:.2f} % document has Cosine similarity 0.2 to 0.4".format(second_bin/df['Cos Similarity'].shape[0]*100))
+# print("{:.2f} % document has Cosine similarity 0.4 to 0.6".format(third_bin/df['Cos Similarity'].shape[0]*100))
+# print("{:.2f} % document has Cosine similarity 0.6 to 0.8".format(fourth_bin/df['Cos Similarity'].shape[0]*100))
+# print("{:.2f} % document has Cosine similarity 0.8 to 1.0".format(fifth_bin/df['Cos Similarity'].shape[0]*100))
+
