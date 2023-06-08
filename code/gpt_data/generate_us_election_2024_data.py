@@ -1,4 +1,4 @@
-API_KEY = ''
+API_KEY = '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'
 import time
 import pandas as pd
 import openai
@@ -41,14 +41,33 @@ def create_questions():
 def generare_answers():
     data = pd.read_csv('../../data/chatgpt_generated_us_election_2024_questions.csv')
     for i in tqdm(range(data.shape[0])):
+        temp_data = [data.iloc[i].to_list()[0], data.iloc[i].to_list()[1], data.iloc[i].to_list()[2], data.iloc[i].to_list()[3]]
         row_data = data.iloc[i].to_list()[4:-1]
-        print('New article')
         for count in range(len(row_data)):
             if row_data[count] is not None:
                 print(row_data[count])
+                question_string = row_data[count]
+                try:
+                    chatcompletion_response = openai.ChatCompletion.create(model="gpt-3.5-turbo",
+                                                                           messages=[
+                                                                               {"role": "system",
+                                                                                "content": question_string}
+                                                                           ])
+
+                    answer = chatcompletion_response.to_dict()['choices'][0].to_dict()['message']['content']
+                    temp_data.append(answer)
+
+                except Exception as e:
+                    print('Error message: ', e)
+                    time.sleep(30)
+                #     count = count - 1
+        temp_data = pd.DataFrame([temp_data])
+        temp_data.to_csv('../../data/chatgpt_generated_us_election_2024_questions_answers.csv', mode='a', index=False, header=False)
 
 
 
 
-create_questions()
+
+
+#create_questions()
 generare_answers()
