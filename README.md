@@ -10,7 +10,7 @@
 #### Collect the ChatGPT answers and use as AI generated text
 #### Calculate text similarity 
 ##### Cosine similarity
-##### Jaccard
+##### Jaccard similarity
 ## Data preprocessing 
 ## Feature engineering 
 ### LDA Topic modeling
