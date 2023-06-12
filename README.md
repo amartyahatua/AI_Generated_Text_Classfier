@@ -11,6 +11,7 @@
 #### Calculate text similarity 
 ##### Cosine similarity
 ##### Jaccard similarity
+##### Compare
 ## Data preprocessing 
 ## Feature engineering 
 ### LDA Topic modeling
