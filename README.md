@@ -26,4 +26,4 @@
 ### Hybrid model
 ## Explanation
 ### Using SHAPE and Lime
-### Compare
+### Compare and explain
