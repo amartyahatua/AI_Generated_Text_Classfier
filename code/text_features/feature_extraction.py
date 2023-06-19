@@ -115,6 +115,8 @@ def wiki_feature_extraction(inputPath='./data/chatgpt_generated_wiki_data_1_5000
         lda_model_folder = './model/lda_wiki_5k_gt'
     trainDF = pd.read_csv(inputPath)
     #trainDF = trainDF.iloc[0:10, :]
+    indexes = trainDF.index.values  
+    trainDF.insert( 0, column="indexes", value = indexes)
     
     # Removing rows having texts less than 100 words
     trainDF[selected_col].replace('', np.nan, inplace=True)
@@ -191,7 +193,7 @@ def wiki_feature_extraction(inputPath='./data/chatgpt_generated_wiki_data_1_5000
     _, _, lda_df = train_save_neurallda(dataset_path=lda_dataset_path, out_folder=lda_model_folder)
 
     #extract word features
-    feat_df = trainDF[[selected_col, 'word_count', 'char_count', 'word_density', 'punctuation_count', 'title_word_count', 
+    feat_df = trainDF[["indexes", selected_col, 'word_count', 'char_count', 'word_density', 'punctuation_count', 'title_word_count', 
                        'upper_case_word_count', 'noun_count', 'verb_count', 'adj_count', 'adv_count', 'pron_count', 'text_error_length']]
     feat_df.rename(columns={selected_col : 'Text'})
     print('step 9 nercount.shape: ', feat_df.shape)
@@ -365,7 +367,7 @@ def us_election_feature_extraction(inputPath='./data/chatgpt_generated_us_electi
         feature_set.to_csv('./data/uselection_features_{0}.csv'.format('GT' if i==0 else 'ChatGPT'+str(i)))
 
 if __name__ == "__main__":
-    #wiki_feature_extraction(source=0)   #process TEXT column in './data/chatgpt_generated_wiki_data_1_5000.csv'
-    #wiki_feature_extraction(source=1)   #process GPT_Generated_Text column in './data/chatgpt_generated_wiki_data_1_5000.csv'
+    wiki_feature_extraction(source=0)   #process TEXT column in './data/chatgpt_generated_wiki_data_1_5000.csv'
+    wiki_feature_extraction(source=1)   #process GPT_Generated_Text column in './data/chatgpt_generated_wiki_data_1_5000.csv'
     #us_election_lda_data_processing()   #preprocess data for the us election 2024 dataset => to perform topic modeling
-    us_election_feature_extraction()     #extract features for the us election dataset
+    #us_election_feature_extraction()     #extract features for the us election dataset
