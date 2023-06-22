@@ -26,3 +26,5 @@
 ### Hybrid model
 ## Explanation
 ### Using SHAPE and Lime
+### Big files to load as pandas dataframe
+### Use PAC to reduce number of columns
