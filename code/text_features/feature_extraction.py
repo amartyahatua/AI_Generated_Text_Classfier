@@ -198,9 +198,9 @@ def wiki_feature_extraction(inputPath='./data/chatgpt_generated_wiki_data_1_5000
     feat_df.rename(columns={selected_col : 'Text'})
     print('step 9 nercount.shape: ', feat_df.shape)
     #tfidf_ngram_chars has the shape (15, 5000) incompatible with the dataset => skipped
-    feature_set = pd.concat([feat_df.reset_index(drop=True), vectorizer_count.reset_index(drop=True), tfidf_word.reset_index(drop=True), 
-                             tfidf_ngram.reset_index(drop=True), readbility.reset_index(drop=True), nercount.reset_index(drop=True), 
-                             lda_df.reset_index(drop=True)], axis=1)
+    feature_set = pd.concat([feat_df.reset_index(drop=True), readbility.reset_index(drop=True), nercount.reset_index(drop=True), 
+                             lda_df.reset_index(drop=True), vectorizer_count.reset_index(drop=True), tfidf_word.reset_index(drop=True), 
+                             tfidf_ngram.reset_index(drop=True)], axis=1)
     print(feature_set.shape)
     feature_set.to_csv('./data/features_{0}.csv'.format('GT' if source==0 else 'ChatGPT'))
 
