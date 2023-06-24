@@ -9,6 +9,9 @@
 #### Ask ChatGPT to form questions using those words
 #### Collect the ChatGPT answers and use as AI generated text
 #### Calculate text similarity 
+##### Features with TF-IDF
+##### Features without TF-IDF
+##### Features with TF-IDF + PCA
 ##### Cosine similarity
 ##### Jaccard similarity
 ##### Compare
@@ -26,5 +29,3 @@
 ### Hybrid model
 ## Explanation
 ### Using SHAPE and Lime
-### Big files to load as pandas dataframe
-### Use PAC to reduce number of columns
