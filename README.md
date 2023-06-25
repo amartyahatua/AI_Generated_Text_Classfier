@@ -11,7 +11,7 @@
 #### Calculate text similarity 
 ##### Features with TF-IDF
 ##### Features without TF-IDF
-##### Features with TF-IDF + PCA
+##### Features with TF-IDF + PCA (with 1024 features)
 ##### Cosine similarity
 ##### Jaccard similarity
 ##### Compare
