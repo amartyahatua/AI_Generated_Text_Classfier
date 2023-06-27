@@ -87,7 +87,8 @@ def find_jaccard_similarity():
 
     return similarities
 
-df =  pd.read_csv('../../data/wiki_features_similarity_no_tfidf.csv')
+
+df = pd.read_csv('../../data/wiki_features_similarity_no_tfidf.csv')
 first_bin = 0
 second_bin = 0
 third_bin = 0
@@ -108,12 +109,13 @@ print("Without TFIDF")
 print('First bin: ', first_bin)
 print('Second bin: ', second_bin)
 print('Third bin: ', third_bin)
-print('Fourth bin: ',fourth_bin)
+print('Fourth bin: ', fourth_bin)
 
-print("{:.2f} % document with Cosine similarity -1 to -0.6".format(first_bin/df['Cosine similarity'].shape[0]*100))
-print("{:.2f} % document has Cosine similarity -0.6 to -0.2".format(second_bin/df['Cosine similarity'].shape[0]*100))
-print("{:.2f} % document has Cosine similarity -0.2 to 0.6".format(third_bin/df['Cosine similarity'].shape[0]*100))
-print("{:.2f} % document has Cosine similarity 0.6 to 1".format(fourth_bin/df['Cosine similarity'].shape[0]*100))
+print("{:.2f} % document with Cosine similarity -1 to -0.6".format(first_bin / df['Cosine similarity'].shape[0] * 100))
+print(
+    "{:.2f} % document has Cosine similarity -0.6 to -0.2".format(second_bin / df['Cosine similarity'].shape[0] * 100))
+print("{:.2f} % document has Cosine similarity -0.2 to 0.6".format(third_bin / df['Cosine similarity'].shape[0] * 100))
+print("{:.2f} % document has Cosine similarity 0.6 to 1".format(fourth_bin / df['Cosine similarity'].shape[0] * 100))
 
 more_than_50 = 0
 less_than_50 = 0
@@ -124,12 +126,11 @@ for i in df['Cosine similarity']:
     elif i > 0 and i <= 1:
         more_than_50 += 1
 
-print('First bin: ', less_than_50/df['Cosine similarity'].shape[0])
-print('Second bin: ', more_than_50/df['Cosine similarity'].shape[0])
-
+print('First bin: ', less_than_50 / df['Cosine similarity'].shape[0])
+print('Second bin: ', more_than_50 / df['Cosine similarity'].shape[0])
 
 print("With TFIDF")
-df =  pd.read_csv('../../data/wiki_features_similarity_with_tfidf.csv')
+df = pd.read_csv('../../data/wiki_features_similarity_with_tfidf.csv')
 first_bin = 0
 second_bin = 0
 third_bin = 0
@@ -149,12 +150,13 @@ for i in df['Cosine similarity']:
 print('First bin: ', first_bin)
 print('Second bin: ', second_bin)
 print('Third bin: ', third_bin)
-print('Fourth bin: ',fourth_bin)
+print('Fourth bin: ', fourth_bin)
 
-print("{:.2f} % document with Cosine similarity -1 to -0.6".format(first_bin/df['Cosine similarity'].shape[0]*100))
-print("{:.2f} % document has Cosine similarity -0.6 to -0.2".format(second_bin/df['Cosine similarity'].shape[0]*100))
-print("{:.2f} % document has Cosine similarity -0.2 to 0.6".format(third_bin/df['Cosine similarity'].shape[0]*100))
-print("{:.2f} % document has Cosine similarity 0.6 to 1".format(fourth_bin/df['Cosine similarity'].shape[0]*100))
+print("{:.2f} % document with Cosine similarity -1 to -0.6".format(first_bin / df['Cosine similarity'].shape[0] * 100))
+print(
+    "{:.2f} % document has Cosine similarity -0.6 to -0.2".format(second_bin / df['Cosine similarity'].shape[0] * 100))
+print("{:.2f} % document has Cosine similarity -0.2 to 0.6".format(third_bin / df['Cosine similarity'].shape[0] * 100))
+print("{:.2f} % document has Cosine similarity 0.6 to 1".format(fourth_bin / df['Cosine similarity'].shape[0] * 100))
 
 more_than_50 = 0
 less_than_50 = 0
@@ -165,6 +167,65 @@ for i in df['Cosine similarity']:
     elif i > 0 and i <= 1:
         more_than_50 += 1
 
-print('First bin: ', less_than_50/df['Cosine similarity'].shape[0])
-print('Second bin: ', more_than_50/df['Cosine similarity'].shape[0])
+print('First bin: ', less_than_50 / df['Cosine similarity'].shape[0])
+print('Second bin: ', more_than_50 / df['Cosine similarity'].shape[0])
 
+print("With TFIDF")
+df = pd.read_csv('../../data/wiki_features_similarity_with_tfidf.csv')
+first_bin = 0
+second_bin = 0
+third_bin = 0
+fourth_bin = 0
+fifth_bin = 0
+
+for i in df['Cosine similarity']:
+    if i >= -1 and i <= -0.6:
+        first_bin += 1
+    elif i > -0.6 and i <= 0.2:
+        second_bin += 1
+    elif i > 0.2 and i <= 0.6:
+        third_bin += 1
+    elif i > 0.6 and i <= 1:
+        fourth_bin += 1
+
+# With TF-IDF and PCA
+print('With TF-IDF and PCA')
+df = pd.read_csv('../../data/wiki_features_similarity_with_tfidf_pca.csv')
+
+first_bin = 0
+second_bin = 0
+third_bin = 0
+fourth_bin = 0
+fifth_bin = 0
+
+for i in df['Cosine similarity']:
+    if i >= -1 and i <= -0.6:
+        first_bin += 1
+    elif i > -0.6 and i <= 0.2:
+        second_bin += 1
+    elif i > 0.2 and i <= 0.6:
+        third_bin += 1
+    elif i > 0.6 and i <= 1:
+        fourth_bin += 1
+
+print('First bin: ', first_bin)
+print('Second bin: ', second_bin)
+print('Third bin: ', third_bin)
+print('Fourth bin: ', fourth_bin)
+
+print("{:.2f} % document with Cosine similarity -1 to -0.6".format(first_bin / df['Cosine similarity'].shape[0] * 100))
+print("{:.2f} % document has Cosine similarity -0.6 to -0.2".format(second_bin / df['Cosine similarity'].shape[0] * 100))
+print("{:.2f} % document has Cosine similarity -0.2 to 0.6".format(third_bin / df['Cosine similarity'].shape[0] * 100))
+print("{:.2f} % document has Cosine similarity 0.6 to 1".format(fourth_bin / df['Cosine similarity'].shape[0] * 100))
+
+more_than_50 = 0
+less_than_50 = 0
+
+for i in df['Cosine similarity']:
+    if i >= -1 and i <= 0:
+        less_than_50 += 1
+    elif i > 0 and i <= 1:
+        more_than_50 += 1
+
+print('First bin: ', less_than_50 / df['Cosine similarity'].shape[0])
+print('Second bin: ', more_than_50 / df['Cosine similarity'].shape[0])
