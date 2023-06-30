@@ -28,4 +28,6 @@
 ### BiLSTM
 ### Hybrid model
 ## Explanation
-### Using SK Learn feature importance, SHAPE and Lime
+#### Using SK Learn feature importance 
+#### SHAPE for feature explaination 
+#### Lime for instance explaination
