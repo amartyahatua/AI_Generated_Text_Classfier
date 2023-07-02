@@ -31,5 +31,5 @@
 #### Using SK Learn feature importance 
 #### SHAPE for feature explaination 
 #### Lime for instance explaination
-##### Find a conference
+##### Conference: https://tada2023.org/
 
