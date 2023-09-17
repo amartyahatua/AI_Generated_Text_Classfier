@@ -30,6 +30,4 @@
 ## Explanation
 #### Using SK Learn feature importance 
 #### SHAPE for feature explaination 
-#### Lime for instance explaination
-##### Conference: https://tada2023.org/
 
