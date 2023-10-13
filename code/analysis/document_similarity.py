@@ -10,71 +10,6 @@ from sklearn.metrics.pairwise import euclidean_distances
 from sentence_transformers import SentenceTransformer
 from tqdm import tqdm
 
-# model = SentenceTransformer('bert-base-nli-mean-tokens')
-# #us_election_qa = pd.read_csv('../../data/chatgpt_generated_us_election_2024_questions_answers_combine.csv')
-#
-#
-# def cosine_similarity_sentence_transformer():
-#     similarities = pd.DataFrame()
-#     for i in tqdm(range(us_election_qa.shape[0])):
-#         try:
-#             ai_gen_text = []
-#             row_text = us_election_qa.iloc[i]['Text']
-#             row_text_embd = model.encode(row_text)
-#
-#             ai_gen_text.append(us_election_qa.iloc[i]['Answer 1']) if us_election_qa.iloc[i][
-#                                                                           'Answer 1'] is not None else \
-#                 us_election_qa.iloc[i]['Title']
-#             ai_gen_text.append(us_election_qa.iloc[i]['Answer 2']) if us_election_qa.iloc[i][
-#                                                                           'Answer 2'] is not None else \
-#                 us_election_qa.iloc[i]['Title']
-#             ai_gen_text.append(us_election_qa.iloc[i]['Answer 3']) if us_election_qa.iloc[i][
-#                                                                           'Answer 3'] is not None else \
-#                 us_election_qa.iloc[i]['Title']
-#             ai_gen_text.append(us_election_qa.iloc[i]['Answer 4']) if us_election_qa.iloc[i][
-#                                                                           'Answer 4'] is not None else \
-#                 us_election_qa.iloc[i]['Title']
-#             ai_gen_text.append(us_election_qa.iloc[i]['Answer 5']) if us_election_qa.iloc[i][
-#                                                                           'Answer 5'] is not None else \
-#                 us_election_qa.iloc[i]['Title']
-#             ai_gen_text.append(us_election_qa.iloc[i]['Answer 6']) if us_election_qa.iloc[i][
-#                                                                           'Answer 6'] is not None else \
-#                 us_election_qa.iloc[i]['Title']
-#             ai_gen_text.append(us_election_qa.iloc[i]['Answer 7']) if us_election_qa.iloc[i][
-#                                                                           'Answer 7'] is not None else \
-#                 us_election_qa.iloc[i]['Title']
-#             ai_gen_text.append(us_election_qa.iloc[i]['Answer 8']) if us_election_qa.iloc[i][
-#                                                                           'Answer 8'] is not None else \
-#                 us_election_qa.iloc[i]['Title']
-#             ai_gen_text.append(us_election_qa.iloc[i]['Answer 9']) if us_election_qa.iloc[i][
-#                                                                           'Answer 9'] is not None else \
-#                 us_election_qa.iloc[i]['Title']
-#             ai_gen_text.append(us_election_qa.iloc[i]['Answer 10']) if us_election_qa.iloc[i][
-#                                                                            'Answer 10'] is not None else \
-#                 us_election_qa.iloc[i]['Title']
-#             compare_embedd = model.encode(ai_gen_text)
-#
-#             similarities_temp = pd.DataFrame(cosine_similarity([row_text_embd], compare_embedd),
-#                                              columns=['Cos Similarity 1', 'Cos Similarity 2', 'Cos Similarity 3',
-#                                                       'Cos Similarity 4',
-#                                                       'Cos Similarity 5', 'Cos Similarity 6', 'Cos Similarity 7',
-#                                                       'Cos Similarity 8',
-#                                                       'Cos Similarity 9', 'Cos Similarity 10'])
-#             similarities = pd.concat([similarities_temp, similarities], axis=0)
-#         except:
-#             similarities_temp = pd.DataFrame([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
-#                                              columns=['Cos Similarity 1', 'Cos Similarity 2', 'Cos Similarity 3',
-#                                                       'Cos Similarity 4',
-#                                                       'Cos Similarity 5', 'Cos Similarity 6', 'Cos Similarity 7',
-#                                                       'Cos Similarity 8',
-#                                                       'Cos Similarity 9', 'Cos Similarity 10'])
-#             similarities = pd.concat([similarities_temp, similarities], axis=0)
-#             print('Here')
-#             continue
-#
-#     similarities = similarities.reset_index(drop=True)
-#     return similarities
-
 
 def jaccard_similarity(doc1, doc2):
     # List the unique words in a document
@@ -152,7 +87,8 @@ def find_jaccard_similarity():
 
     return similarities
 
-df =  pd.read_csv('../../data/wiki_features_similarity_no_tfidf.csv')
+
+df = pd.read_csv('../../data/wiki_features_similarity_no_tfidf.csv')
 first_bin = 0
 second_bin = 0
 third_bin = 0
@@ -173,12 +109,13 @@ print("Without TFIDF")
 print('First bin: ', first_bin)
 print('Second bin: ', second_bin)
 print('Third bin: ', third_bin)
-print('Fourth bin: ',fourth_bin)
+print('Fourth bin: ', fourth_bin)
 
-print("{:.2f} % document with Cosine similarity -1 to -0.6".format(first_bin/df['Cosine similarity'].shape[0]*100))
-print("{:.2f} % document has Cosine similarity -0.6 to -0.2".format(second_bin/df['Cosine similarity'].shape[0]*100))
-print("{:.2f} % document has Cosine similarity -0.2 to 0.6".format(third_bin/df['Cosine similarity'].shape[0]*100))
-print("{:.2f} % document has Cosine similarity 0.6 to 1".format(fourth_bin/df['Cosine similarity'].shape[0]*100))
+print("{:.2f} % document with Cosine similarity -1 to -0.6".format(first_bin / df['Cosine similarity'].shape[0] * 100))
+print(
+    "{:.2f} % document has Cosine similarity -0.6 to -0.2".format(second_bin / df['Cosine similarity'].shape[0] * 100))
+print("{:.2f} % document has Cosine similarity -0.2 to 0.6".format(third_bin / df['Cosine similarity'].shape[0] * 100))
+print("{:.2f} % document has Cosine similarity 0.6 to 1".format(fourth_bin / df['Cosine similarity'].shape[0] * 100))
 
 more_than_50 = 0
 less_than_50 = 0
@@ -189,12 +126,11 @@ for i in df['Cosine similarity']:
     elif i > 0 and i <= 1:
         more_than_50 += 1
 
-print('First bin: ', less_than_50/df['Cosine similarity'].shape[0])
-print('Second bin: ', more_than_50/df['Cosine similarity'].shape[0])
-
+print('First bin: ', less_than_50 / df['Cosine similarity'].shape[0])
+print('Second bin: ', more_than_50 / df['Cosine similarity'].shape[0])
 
 print("With TFIDF")
-df =  pd.read_csv('../../data/wiki_features_similarity_with_tfidf.csv')
+df = pd.read_csv('../../data/wiki_features_similarity_with_tfidf.csv')
 first_bin = 0
 second_bin = 0
 third_bin = 0
@@ -214,12 +150,13 @@ for i in df['Cosine similarity']:
 print('First bin: ', first_bin)
 print('Second bin: ', second_bin)
 print('Third bin: ', third_bin)
-print('Fourth bin: ',fourth_bin)
+print('Fourth bin: ', fourth_bin)
 
-print("{:.2f} % document with Cosine similarity -1 to -0.6".format(first_bin/df['Cosine similarity'].shape[0]*100))
-print("{:.2f} % document has Cosine similarity -0.6 to -0.2".format(second_bin/df['Cosine similarity'].shape[0]*100))
-print("{:.2f} % document has Cosine similarity -0.2 to 0.6".format(third_bin/df['Cosine similarity'].shape[0]*100))
-print("{:.2f} % document has Cosine similarity 0.6 to 1".format(fourth_bin/df['Cosine similarity'].shape[0]*100))
+print("{:.2f} % document with Cosine similarity -1 to -0.6".format(first_bin / df['Cosine similarity'].shape[0] * 100))
+print(
+    "{:.2f} % document has Cosine similarity -0.6 to -0.2".format(second_bin / df['Cosine similarity'].shape[0] * 100))
+print("{:.2f} % document has Cosine similarity -0.2 to 0.6".format(third_bin / df['Cosine similarity'].shape[0] * 100))
+print("{:.2f} % document has Cosine similarity 0.6 to 1".format(fourth_bin / df['Cosine similarity'].shape[0] * 100))
 
 more_than_50 = 0
 less_than_50 = 0
@@ -230,6 +167,65 @@ for i in df['Cosine similarity']:
     elif i > 0 and i <= 1:
         more_than_50 += 1
 
-print('First bin: ', less_than_50/df['Cosine similarity'].shape[0])
-print('Second bin: ', more_than_50/df['Cosine similarity'].shape[0])
+print('First bin: ', less_than_50 / df['Cosine similarity'].shape[0])
+print('Second bin: ', more_than_50 / df['Cosine similarity'].shape[0])
 
+print("With TFIDF")
+df = pd.read_csv('../../data/wiki_features_similarity_with_tfidf.csv')
+first_bin = 0
+second_bin = 0
+third_bin = 0
+fourth_bin = 0
+fifth_bin = 0
+
+for i in df['Cosine similarity']:
+    if i >= -1 and i <= -0.6:
+        first_bin += 1
+    elif i > -0.6 and i <= 0.2:
+        second_bin += 1
+    elif i > 0.2 and i <= 0.6:
+        third_bin += 1
+    elif i > 0.6 and i <= 1:
+        fourth_bin += 1
+
+# With TF-IDF and PCA
+print('With TF-IDF and PCA')
+df = pd.read_csv('../../data/wiki_features_similarity_with_tfidf_pca.csv')
+
+first_bin = 0
+second_bin = 0
+third_bin = 0
+fourth_bin = 0
+fifth_bin = 0
+
+for i in df['Cosine similarity']:
+    if i >= -1 and i <= -0.6:
+        first_bin += 1
+    elif i > -0.6 and i <= 0.2:
+        second_bin += 1
+    elif i > 0.2 and i <= 0.6:
+        third_bin += 1
+    elif i > 0.6 and i <= 1:
+        fourth_bin += 1
+
+print('First bin: ', first_bin)
+print('Second bin: ', second_bin)
+print('Third bin: ', third_bin)
+print('Fourth bin: ', fourth_bin)
+
+print("{:.2f} % document with Cosine similarity -1 to -0.6".format(first_bin / df['Cosine similarity'].shape[0] * 100))
+print("{:.2f} % document has Cosine similarity -0.6 to -0.2".format(second_bin / df['Cosine similarity'].shape[0] * 100))
+print("{:.2f} % document has Cosine similarity -0.2 to 0.6".format(third_bin / df['Cosine similarity'].shape[0] * 100))
+print("{:.2f} % document has Cosine similarity 0.6 to 1".format(fourth_bin / df['Cosine similarity'].shape[0] * 100))
+
+more_than_50 = 0
+less_than_50 = 0
+
+for i in df['Cosine similarity']:
+    if i >= -1 and i <= 0:
+        less_than_50 += 1
+    elif i > 0 and i <= 1:
+        more_than_50 += 1
+
+print('First bin: ', less_than_50 / df['Cosine similarity'].shape[0])
+print('Second bin: ', more_than_50 / df['Cosine similarity'].shape[0])
