@@ -394,7 +394,7 @@ def lemmatization(text):
 # Writing main function to merge all the preprocessing steps.
 def text_preprocessing(text, accented_chars=True, contractions=True, lemma = True,
                         extra_whitespace=True, newlines_tabs=True, repeatition=True, 
-                       lowercase=True, punctuations=True, mis_spell=True,
+                       lowercase=False, punctuations=False, mis_spell=False,
                        remove_html=True, links=True,  special_chars=True,
                        stop_words=False):
     """

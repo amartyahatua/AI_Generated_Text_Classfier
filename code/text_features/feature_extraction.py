@@ -2,6 +2,7 @@
 import json
 import pandas as pd
 import string
+import os
 import numpy as np
 from textblob import TextBlob           #python -m pip install textblob
 from sklearn.decomposition import LatentDirichletAllocation
@@ -192,17 +193,23 @@ def wiki_feature_extraction(inputPath='./data/chatgpt_generated_wiki_data_1_5000
     #extract topic modeling features (20 columns)
     _, _, lda_df = train_save_neurallda(dataset_path=lda_dataset_path, out_folder=lda_model_folder)
 
-    #extract word features
-    feat_df = trainDF[["indexes", selected_col, 'word_count', 'char_count', 'word_density', 'punctuation_count', 'title_word_count', 
+    #save the corresponding texts for the wiki dataset
+    out_folder = './data/wiki_features/'
+    os.makedirs(out_folder, exist_ok=True)
+    wiki_text_df = trainDF[["indexes", selected_col]]
+    wiki_text_df.rename(columns={selected_col : 'Text'})
+    wiki_text_df.to_csv(out_folder + '/wiki_text_{0}.csv'.format('GT' if source==0 else 'ChatGPT'))
+
+    #save the handcrafted features of the wiki dataset
+    feat_df = trainDF[["indexes", 'word_count', 'char_count', 'word_density', 'punctuation_count', 'title_word_count', 
                        'upper_case_word_count', 'noun_count', 'verb_count', 'adj_count', 'adv_count', 'pron_count', 'text_error_length']]
-    feat_df.rename(columns={selected_col : 'Text'})
     print('step 9 nercount.shape: ', feat_df.shape)
     #tfidf_ngram_chars has the shape (15, 5000) incompatible with the dataset => skipped
     feature_set = pd.concat([feat_df.reset_index(drop=True), readbility.reset_index(drop=True), nercount.reset_index(drop=True), 
                              lda_df.reset_index(drop=True), vectorizer_count.reset_index(drop=True), tfidf_word.reset_index(drop=True), 
                              tfidf_ngram.reset_index(drop=True)], axis=1)
     print(feature_set.shape)
-    feature_set.to_csv('./data/features_{0}.csv'.format('GT' if source==0 else 'ChatGPT'))
+    feature_set.to_csv(out_folder + '/wiki_features_{0}.csv'.format('GT' if source==0 else 'ChatGPT'))
 
 def us_election_lda_data_processing(inputPath='./data/chatgpt_generated_us_election_2024_questions_answers_combine.csv'):
     trainDF = pd.read_csv(inputPath)
@@ -354,20 +361,26 @@ def us_election_feature_extraction(inputPath='./data/chatgpt_generated_us_electi
         #extract topic modeling features (20 columns)
         _, _, lda_df = train_save_neurallda(dataset_path=lda_dataset_path, out_folder=lda_model_folder)
 
+        #save the corresponding texts for the uselection dataset
+        out_folder = './data/uselection_features/'
+        os.makedirs(out_folder, exist_ok=True)
+        uselection_text_df = trainDF[["indexes", selected_col]]
+        uselection_text_df.rename(columns={selected_col : 'Text'})
+        uselection_text_df.to_csv(out_folder + '/uselection_text_{0}.csv'.format('GT' if i==0 else 'ChatGPT'+str(i)))
+
         #extract word features      
-        feat_df = trainDF[['indexes', selected_col, 'word_count', 'char_count', 'word_density', 'punctuation_count', 'title_word_count', 
+        feat_df = trainDF[['indexes', 'word_count', 'char_count', 'word_density', 'punctuation_count', 'title_word_count', 
                         'upper_case_word_count', 'noun_count', 'verb_count', 'adj_count', 'adv_count', 'pron_count', 'text_error_length']]
-        feat_df.rename(columns={selected_col : 'Text'})
         print('step 9 nercount.shape: ', feat_df.shape)
         #tfidf_ngram_chars has the shape (15, 5000) incompatible with the dataset => skipped
         feature_set = pd.concat([feat_df.reset_index(drop=True), vectorizer_count.reset_index(drop=True), tfidf_word.reset_index(drop=True), 
                                 tfidf_ngram.reset_index(drop=True), readbility.reset_index(drop=True), nercount.reset_index(drop=True), 
                                 lda_df.reset_index(drop=True)], axis=1)
         print(feature_set.shape)
-        feature_set.to_csv('./data/uselection_features_{0}.csv'.format('GT' if i==0 else 'ChatGPT'+str(i)))
+        feature_set.to_csv(out_folder + '/uselection_features_{0}.csv'.format('GT' if i==0 else 'ChatGPT'+str(i)))
 
 if __name__ == "__main__":
-    wiki_feature_extraction(source=0)   #process TEXT column in './data/chatgpt_generated_wiki_data_1_5000.csv'
-    wiki_feature_extraction(source=1)   #process GPT_Generated_Text column in './data/chatgpt_generated_wiki_data_1_5000.csv'
+    #wiki_feature_extraction(source=0)   #process TEXT column in './data/chatgpt_generated_wiki_data_1_5000.csv'
+    #wiki_feature_extraction(source=1)   #process GPT_Generated_Text column in './data/chatgpt_generated_wiki_data_1_5000.csv'
     #us_election_lda_data_processing()   #preprocess data for the us election 2024 dataset => to perform topic modeling
-    #us_election_feature_extraction()     #extract features for the us election dataset
+    us_election_feature_extraction()     #extract features for the us election dataset
